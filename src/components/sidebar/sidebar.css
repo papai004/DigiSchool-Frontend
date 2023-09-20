@@ -1,5 +1,5 @@
 .sidemenu {
-    background-color: #79FF69;
+    background: linear-gradient(#89D4CF,#734AE8) ;
     border-radius: 12px;
-    height: 80vh;
+    height: 75vh;
 }
