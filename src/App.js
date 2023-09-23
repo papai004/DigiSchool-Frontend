@@ -1,7 +1,7 @@
 import { Routes, Route } from "react-router-dom";
-import Dashboard from "./components/Dashboard";
-import Students from "./components/pages/Students";
-import Admission from "./components/pages/Admission";
+import Dashboard from "./pages/Dashboard";
+import Students from "./pages/Students";
+import Admission from "./pages/Admission";
 
 function App() {
   return (

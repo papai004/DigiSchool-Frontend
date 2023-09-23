@@ -1,19 +1,17 @@
 import React from "react";
 import Foot from "./footer.module.css";
-import { FaInstagram, FaLinkedin } from "react-icons/fa";
+import { LinkedinOutlined, InstagramOutlined } from '@ant-design/icons';
 
 const Footer = () => {
   return (
     <footer className={Foot.footer}>
-      <p>
-        &copy; 2023 Made With Love ❤😉
+        &copy; 2023 Made With Love ❤
         <span onClick={() =>{window.open('https://www.linkedin.com/in/papai-singha-532034218', '_blank');}}>
-          <FaLinkedin className={Foot.hov} size={20} />
+        <LinkedinOutlined className={Foot.hov}/>
         </span>
         <span onClick={() =>{window.open('https://www.instagram.com/papai_004/', '_blank');}}>
-          <FaInstagram className={Foot.hov} size={20} />
+          <InstagramOutlined className={Foot.hov} />
         </span>
-      </p>
     </footer>
   );
 };

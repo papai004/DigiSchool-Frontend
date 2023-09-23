@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import './sidebar.css';
 import {
   UserAddOutlined,
   TeamOutlined,
@@ -27,12 +26,18 @@ const items = [
 function Sidebar() {
 
   const location = useLocation();
-  const [selectedKeys, setSelectedKeys] = useState("/");
+  const [selectedKeys, setSelectedKeys] = useState();
 
   useEffect(() => {
-    const pathName = location.pathname;
-    setSelectedKeys(pathName);
-  }, [location.pathname]);
+    if(selectedKeys !== location.pathname)
+      setSelectedKeys(location.pathname);
+  }, [location.pathname, selectedKeys]);
+
+  const handleMenuChange = (newPath) => {
+    console.log("New Path - ", newPath);
+    setSelectedKeys(newPath);
+    navigate(newPath);
+  }
 
   const navigate = useNavigate();
 
@@ -40,8 +45,9 @@ function Sidebar() {
       <Menu
         className='sidemenu'
         onClick={(item) => {
-          navigate(item.key);
+          handleMenuChange(item.key)          
         }}
+        style={{height: '75vh'}}
         selectedKeys={[selectedKeys]}
         mode="inline"
         items={items}

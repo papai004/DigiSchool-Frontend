@@ -1,13 +1,12 @@
-import React from 'react'
-
 function Header(props) {
 
     const styles = {
         textAlign: 'center',
+        height: '4rem',
     }
   return (
     <div style={styles}>
-      <h1><u>{props.title}</u></h1>
+      { props.children }
     </div>
   )
 }
