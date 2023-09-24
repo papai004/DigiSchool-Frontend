@@ -53,7 +53,7 @@ function Admission() {
           onFinish={onFinish}
           style={{
             maxWidth: 600,
-            marginTop:'1.5rem'
+            marginTop:'1.5rem',
           }}
           validateMessages={validateMessages}
           initialValues={{ prefix: "91" }}

@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
 import AppLayout from "../layout/AppLayout";
 import qs from "qs";
-import { Table } from "antd";
+import { Table,Badge } from "antd";
+
+
+
 const columns = [
   {
     title: "Name",
@@ -23,7 +26,13 @@ const columns = [
         value: "female",
       },
     ],
-    width: "20%",
+    width: "10%",
+  },
+  {
+    title: "Status",
+    dataIndex: "state",
+    render: () => <Badge status="success" text="Finished" />,
+    width: "10%",
   },
   {
     title: "Email",
@@ -41,7 +50,7 @@ const Students = () => {
   const [tableParams, setTableParams] = useState({
     pagination: {
       current: 1,
-      pageSize: 8,
+      pageSize: 10,
     },
   });
   const fetchData = () => {
@@ -85,12 +94,15 @@ const Students = () => {
   return (
     <AppLayout title="Students Details">
       <Table
-        style={{marginLeft:'1rem', marginRight:'1rem'}}
+        style={{ marginLeft: "1rem", marginRight: "1rem" }}
         columns={columns}
         rowKey={(record) => record.login.uuid}
         dataSource={data}
         pagination={tableParams.pagination}
         loading={loading}
+        scroll={{
+          y: 456,
+        }}
         onChange={handleTableChange}
       />
     </AppLayout>

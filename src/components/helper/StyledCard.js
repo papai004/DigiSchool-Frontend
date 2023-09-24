@@ -5,7 +5,6 @@ const style = {
     paddingTop: '0.5rem',
     paddingBottom: '0.5rem',
     maxWidth: '680px',
-    height: '73vh',
     marginLeft: '2rem',
 
 }
