@@ -1,41 +1,35 @@
-import { Col, Row } from "antd";
-import Sidebar from "../components/sidebar/Sidebar";
-import styles from "./AppLayout.module.css";
-import Header from "../components/navs/Header";
-import Footer from "../components/navs/Footer";
-import infiniteImg from "../images/infinite.jpg";
+import React from "react";
+import Header from "../components/navs/Header.js";
+import Footer from "../components/navs/Footer.js";
+import Sidebar from "../components/sidebar/Sidebar.js";
+import { Layout, theme } from "antd";
 
 
 const AppLayout = (props) => {
+  const {
+    token: { colorBgContainer },
+  } = theme.useToken();
   return (
-    <div>
-      <Header>
-        <Row>
-          <Col span={2}>
-            <img
-              src={infiniteImg}
-              style={{ width: "100px", height: "52px", marginTop: "6px" }}
-              alt="infiniteImg"
-            />
-          </Col>
-          <Col span={22}>
-            <u>
-              <h2>{props.title}</h2>
-            </u>
-          </Col>
-        </Row>
-      </Header>
-      <Row>
-        <Col span={4}>
-          <Sidebar />
-        </Col>
-        <Col span={20} className={styles.layout__container}>
-          {props.children}
-        </Col>
-      </Row>
-      <Footer />
-    </div>
+    <Layout>
+      <Sidebar />
+      <Layout>
+        <Header
+          style={{
+            padding: 0,
+            background: colorBgContainer,
+          }}
+          title="Dashboard"
+        />
+        {props.children}
+        <Footer
+          style={{
+            textAlign: "center",
+          }}
+        >
+          Ant Design ©2023 Created by Ant UED
+        </Footer>
+      </Layout>
+    </Layout>
   );
 };
-
 export default AppLayout;

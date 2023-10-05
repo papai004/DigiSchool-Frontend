@@ -1,11 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import {
   UserAddOutlined,
   TeamOutlined,
   DashboardOutlined,
-} from '@ant-design/icons';
-import { Menu } from 'antd';
+} from "@ant-design/icons";
+import { Menu, Layout } from "antd";
+
+const { Sider } = Layout;
+
 function getItem(label, key, icon, children, type) {
   return {
     key,
@@ -17,41 +20,49 @@ function getItem(label, key, icon, children, type) {
 }
 
 const items = [
-  getItem('Dashboard', '/', <DashboardOutlined />),
-  getItem('Students', '/students', <TeamOutlined />),
-  getItem('Admission', '/admission', <UserAddOutlined />),
+  getItem("Dashboard", "/", <DashboardOutlined />),
+  getItem("Students", "/students", <TeamOutlined />),
+  getItem("Admission", "/admission", <UserAddOutlined />),
 ];
 
-
 function Sidebar() {
-
   const location = useLocation();
   const [selectedKeys, setSelectedKeys] = useState();
 
   useEffect(() => {
-    if(selectedKeys !== location.pathname)
-      setSelectedKeys(location.pathname);
+    if (selectedKeys !== location.pathname) setSelectedKeys(location.pathname);
   }, [location.pathname, selectedKeys]);
 
   const handleMenuChange = (newPath) => {
     console.log("New Path - ", newPath);
     setSelectedKeys(newPath);
     navigate(newPath);
-  }
+  };
 
   const navigate = useNavigate();
 
   return (
+    <Sider
+      breakpoint="lg"
+      collapsedWidth="0"
+      onBreakpoint={(broken) => {
+        console.log(broken);
+      }}
+      onCollapse={(collapsed, type) => {
+        console.log(collapsed, type);
+      }}
+    >
+      <div className="demo-logo-vertical" />
       <Menu
-        className='sidemenu'
-        onClick={(item) => {
-          handleMenuChange(item.key)          
-        }}
-        style={{height: '75vh'}}
-        selectedKeys={[selectedKeys]}
+        theme="dark"
         mode="inline"
+        onClick={(item) => {
+          handleMenuChange(item.key);
+        }}
+        selectedKeys={[selectedKeys]}
         items={items}
       />
+    </Sider>
   );
 }
 

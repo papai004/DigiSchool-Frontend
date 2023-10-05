@@ -1,7 +1,6 @@
 import React from "react";
 import { Button, Form, Input, Select } from "antd";
 import StyledCard from '../components/helper/StyledCard';
-import Date from "../components/helper/DatePicker";
 import AppLayout from "../layout/AppLayout";
 const layout = {
   labelCol: {
@@ -40,7 +39,16 @@ const validateMessages = {
 /* eslint-enable no-template-curly-in-string */
 
 const onFinish = (values) => {
-  console.log(values);
+
+  console.log(values.name);
+  console.log(values.parentName);
+  console.log(values.gender);
+  console.log(values.phone);
+  console.log(values.roll);
+  console.log(values.standard);
+  console.log(values.section);
+  console.log(values.address);
+  console.log(values.bloodGroup); 
 };
 
 function Admission() {
@@ -59,7 +67,7 @@ function Admission() {
           initialValues={{ prefix: "91" }}
         >
           <Form.Item
-            name={["user", "name"]}
+            name="name"
             label="Name"
             rules={[
               {
@@ -70,8 +78,8 @@ function Admission() {
             <Input />
           </Form.Item>
           <Form.Item
-            name={["user", "roll"]}
-            label="Roll"
+            name="parentName"
+            label="parentName"
             rules={[
               {
                 required: true,
@@ -81,15 +89,19 @@ function Admission() {
             <Input />
           </Form.Item>
           <Form.Item
-            name={["user", "email"]}
-            label="Email"
+            name="gender"
+            label="Gender"
             rules={[
               {
-                type: "email",
+                required: true,
+                message: "Please select gender!",
               },
             ]}
           >
-            <Input />
+            <Select placeholder="select your gender">
+              <Option value="male">Male</Option>
+              <Option value="female">Female</Option>
+            </Select>
           </Form.Item>
           <Form.Item
             name="phone"
@@ -110,29 +122,62 @@ function Admission() {
               }}
             />
           </Form.Item>
-          <Date />
           <Form.Item
-            name="gender"
-            label="Gender"
+            name="standard"
+            label="standard"
             rules={[
               {
                 required: true,
-                message: "Please select gender!",
+                message: "Please input Standard",
               },
             ]}
           >
-            <Select placeholder="select your gender">
-              <Option value="male">Male</Option>
-              <Option value="female">Female</Option>
-            </Select>
+            <Input />
           </Form.Item>
           <Form.Item
-            name="Discipline"
-            label="Discipline"
+            name="roll"
+            label="Roll"
             rules={[
               {
                 required: true,
-                message: "Please input your Stream!",
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            name="section"
+            label="section"
+            rules={[
+              {
+                required: true,
+              },
+            ]}
+          >
+            <Select placeholder="select your section">
+              <Option value="A">A</Option>
+              <Option value="B">B</Option>
+              <Option value="C">C</Option>
+              <Option value="D">D</Option>
+            </Select>
+          </Form.Item>
+          <Form.Item
+            name="address"
+            label="address"
+            rules={[
+              {
+                required: true,
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            name="bloodGroup"
+            label="bloodGroup"
+            rules={[
+              {
+                required: true,
               },
             ]}
           >

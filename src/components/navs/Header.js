@@ -6,7 +6,7 @@ function Header(props) {
     }
   return (
     <div style={styles}>
-      { props.children }
+      { props.title }
     </div>
   )
 }

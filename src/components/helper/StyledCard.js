@@ -4,7 +4,7 @@ const style = {
     boxShadow: '0 2px 8px rgba(0, 0, 0, 0.2)',
     paddingTop: '0.5rem',
     paddingBottom: '0.5rem',
-    maxWidth: '680px',
+    maxWidth: '740px',
     marginLeft: '2rem',
 
 }
