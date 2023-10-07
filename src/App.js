@@ -1,15 +1,18 @@
 import { Routes, Route } from "react-router-dom";
 import Dashboard from "./pages/Dashboard";
-import Students from "./pages/Students";
-import Admission from "./pages/Admission";
+import Manage from "./pages/Manage";
+import Actions from "./pages/Actions";
+import Settings from "./pages/Settings";
 
 function App() {
   return (
     <div className="App">
       <Routes>
         <Route path="/" element={<Dashboard />}></Route>
-        <Route path="/students" element={<Students />}></Route>
-        <Route path="/admission" element={<Admission />}></Route>
+        <Route path="/manage" element={<Manage />}></Route>
+        <Route path="/actions" element={<Actions />}></Route>
+        <Route path="/settings" element={<Settings />}></Route>
+        <Route path="/logout" element={<logout />}></Route>
       </Routes>
     </div>
   );

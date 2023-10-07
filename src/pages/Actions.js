@@ -51,7 +51,7 @@ const onFinish = (values) => {
   console.log(values.bloodGroup); 
 };
 
-function Admission() {
+function Actions() {
   return (
     <AppLayout title="Admission">
       <StyledCard>
@@ -199,4 +199,4 @@ function Admission() {
   );
 }
 
-export default Admission;
+export default Actions;

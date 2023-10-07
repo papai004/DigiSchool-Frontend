@@ -44,7 +44,7 @@ const getRandomuserParams = (params) => ({
   page: params.pagination?.current,
   ...params,
 });
-const Students = () => {
+const Manage = () => {
   const [data, setData] = useState();
   const [loading, setLoading] = useState(false);
   const [tableParams, setTableParams] = useState({
@@ -78,6 +78,7 @@ const Students = () => {
 
   useEffect(() => {
     fetchData();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [JSON.stringify(tableParams)]);
   const handleTableChange = (pagination, filters, sorter) => {
     setTableParams({
@@ -108,4 +109,4 @@ const Students = () => {
     </AppLayout>
   );
 };
-export default Students;
+export default Manage;

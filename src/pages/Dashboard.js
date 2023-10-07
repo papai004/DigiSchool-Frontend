@@ -11,7 +11,7 @@ function Dashboard() {
 
   return (
     <AppLayout title="Welcome to DigiSchool">
-      <Row>
+      <Row style={{marginTop: "1rem"}}>
         <Cards
           icon={
             <FaUsers
