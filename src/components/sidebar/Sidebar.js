@@ -12,6 +12,7 @@ import { Menu, Layout } from "antd";
 
 const { Sider } = Layout;
 
+import { Menu } from "antd";
 function getItem(label, key, icon, children, type) {
   return {
     key,
@@ -24,12 +25,18 @@ function getItem(label, key, icon, children, type) {
 
 const items = [
   getItem("Dashboard", "/", <DashboardOutlined />),
+<<<<<<< HEAD
   getItem("Manage", "/manage", <MdManageAccounts />),
   getItem("Actions", "/actions", <GrActions className={styles.action__logo} />),
 ];
 const bottomItems = [
   getItem("Settings", "/settings", <SettingOutlined />),
   getItem("Logout", "/logout", <UserAddOutlined />),
+=======
+  getItem("Students", "/students", <TeamOutlined />),
+  getItem("Admission", "/admission", <UserAddOutlined />),
+  getItem("Management", "/management", <UserAddOutlined />),
+>>>>>>> 3be7734d0129e8a924807ebc1b65560d87bfb4a7
 ];
 
 function Sidebar() {
