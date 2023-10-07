@@ -9,6 +9,7 @@ import { Menu, Layout } from "antd";
 
 const { Sider } = Layout;
 
+import { Menu } from "antd";
 function getItem(label, key, icon, children, type) {
   return {
     key,
@@ -23,6 +24,7 @@ const items = [
   getItem("Dashboard", "/", <DashboardOutlined />),
   getItem("Students", "/students", <TeamOutlined />),
   getItem("Admission", "/admission", <UserAddOutlined />),
+  getItem("Management", "/management", <UserAddOutlined />),
 ];
 
 function Sidebar() {
