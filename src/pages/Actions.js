@@ -199,8 +199,5 @@ function Actions() {
   );
 }
 
-<<<<<<< HEAD:src/pages/Actions.js
 export default Actions;
-=======
-export default Admission;
->>>>>>> 3be7734d0129e8a924807ebc1b65560d87bfb4a7:src/pages/Admission.js
+
