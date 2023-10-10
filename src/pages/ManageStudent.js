@@ -1,42 +1,40 @@
 import React, { useEffect, useState } from "react";
 import AppLayout from "../layout/AppLayout";
 import qs from "qs";
-import { Table,Badge } from "antd";
-
-
+import { Table, Input, Row, Col, Button } from "antd";
+import { SearchOutlined, DownloadOutlined } from "@ant-design/icons";
+import styles from "../components/styles/manage.module.css";
+import StudentFilter from "../components/helper/StudentFilter";
+import AddStudent from '../components/modal/StudentAddModal';
 
 const columns = [
   {
     title: "Name",
     dataIndex: "name",
-    sorter: true,
     render: (name) => `${name.first} ${name.last}`,
-    width: "20%",
   },
   {
     title: "Gender",
     dataIndex: "gender",
-    filters: [
-      {
-        text: "Male",
-        value: "male",
-      },
-      {
-        text: "Female",
-        value: "female",
-      },
-    ],
     width: "10%",
   },
   {
-    title: "Status",
-    dataIndex: "state",
-    render: () => <Badge status="success" text="Finished" />,
+    title: "Standard",
+    dataIndex: "standard",
     width: "10%",
   },
   {
-    title: "Email",
-    dataIndex: "email",
+    title: "Section",
+    dataIndex: "section",
+    width: "10%",
+  },
+  {
+    title: "PhoneNo",
+    dataIndex: "phoneNo",
+  },
+  {
+    title: "Edit",
+    dataIndex: "edit",
   },
 ];
 const getRandomuserParams = (params) => ({
@@ -78,7 +76,7 @@ const Manage = () => {
 
   useEffect(() => {
     fetchData();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [JSON.stringify(tableParams)]);
   const handleTableChange = (pagination, filters, sorter) => {
     setTableParams({
@@ -92,9 +90,41 @@ const Manage = () => {
       setData([]);
     }
   };
+
+  const onChangeHandler = (data) => {
+    data.preventDefault();
+    console.log(data);
+  };
   return (
     <AppLayout title="Students Details">
+      <div className={styles.filter}>
+        <Row>
+          <Col span={10} className={styles.filter__items}>
+            <Input
+              placeholder="type something"
+              className={styles.filter__items}
+            />
+          </Col>
+          <Col span={8}>
+          <StudentFilter />
+          </Col>
+          <Button
+            type="primary"
+            icon={<SearchOutlined />}
+            className={styles.filter__items}
+            style={{ marginLeft: ".5rem" }}
+            onClick={onChangeHandler}
+          >
+            Search
+          </Button>
+          <AddStudent />
+      <Button type="primary" className={styles.filter__items}>
+      <DownloadOutlined />
+      </Button>
+        </Row>
+      </div>
       <Table
+      size="small"
         style={{ marginLeft: "1rem", marginRight: "1rem" }}
         columns={columns}
         rowKey={(record) => record.login.uuid}

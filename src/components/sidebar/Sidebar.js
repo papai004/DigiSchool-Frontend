@@ -4,9 +4,9 @@ import styles from "./sidebar.module.css";
 import { GrActions } from "react-icons/gr";
 import { MdManageAccounts } from "react-icons/md";
 import {
-  UserAddOutlined,
   DashboardOutlined,
   SettingOutlined,
+  LogoutOutlined,
 } from "@ant-design/icons";
 import { Menu, Layout } from "antd";
 
@@ -24,12 +24,15 @@ function getItem(label, key, icon, children, type) {
 
 const items = [
   getItem("Dashboard", "/", <DashboardOutlined />),
-  getItem("Manage", "/manage", <MdManageAccounts />),
+  getItem("Manage School", "#", <MdManageAccounts />, [
+    getItem("Student", "/manageStudent"),
+    getItem("Standard", "/manageStandard"),
+  ]),
   getItem("Actions", "/actions", <GrActions className={styles.action__logo} />),
 ];
 const bottomItems = [
   getItem("Settings", "/settings", <SettingOutlined />),
-  getItem("Logout", "/logout", <UserAddOutlined />),
+  getItem("Logout", "/logout", <LogoutOutlined />),
 ];
 
 function Sidebar() {
@@ -41,7 +44,6 @@ function Sidebar() {
   }, [location.pathname, selectedKeys]);
 
   const handleMenuChange = (newPath) => {
-    console.log("New Path - ", newPath);
     setSelectedKeys(newPath);
     navigate(newPath);
   };
@@ -53,41 +55,37 @@ function Sidebar() {
       className={styles.sidebar}
       breakpoint="lg"
       collapsedWidth="0"
-      onBreakpoint={(broken) => {
-        console.log(broken);
-      }}
-      onCollapse={(collapsed, type) => {
-        console.log(collapsed, type);
-      }}
+      onBreakpoint={(broken) => {}}
+      onCollapse={(collapsed, type) => {}}
     >
       <div className={styles.heading}>
         <h2>DigiSchool</h2>
       </div>
       <div className={styles.sidebar__items}>
-    <React.Fragment>
-      <Menu
-        theme="dark"
-        mode="inline"
-        onClick={(item) => {
-          handleMenuChange(item.key);
-        }}
-        selectedKeys={[selectedKeys]}
-        items={items}
-      />
-    </React.Fragment>
-    <div>
-      <Menu
-        style={{ marginBottom: "auto" }}
-        theme="dark"
-        mode="inline"
-        onClick={(item) => {
-          handleMenuChange(item.key);
-        }}
-        selectedKeys={[selectedKeys]}
-        items={bottomItems} 
-        selectable={false}
-      />
-      </div>
+        <React.Fragment>
+          <Menu
+            theme="dark"
+            mode="inline"
+            onClick={(item) => {
+              handleMenuChange(item.key);
+            }}
+            selectedKeys={[selectedKeys]}
+            items={items}
+          />
+        </React.Fragment>
+        <div>
+          <Menu
+            style={{ marginBottom: "auto" }}
+            theme="dark"
+            mode="inline"
+            onClick={(item) => {
+              handleMenuChange(item.key);
+            }}
+            selectedKeys={[selectedKeys]}
+            items={bottomItems}
+            selectable={false}
+          />
+        </div>
       </div>
     </Sider>
   );
