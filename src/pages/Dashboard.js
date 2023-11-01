@@ -1,5 +1,5 @@
 import React from "react";
-import Cards from "../components/helper/Cards";
+import Cards from "../helper/Cards";
 import { Row, Col } from "antd";
 import { FaUsers } from "react-icons/fa";
 import { MdMoneyOff } from "react-icons/md";

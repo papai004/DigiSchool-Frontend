@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import styles from "./sidebar.module.css";
-import { GrActions } from "react-icons/gr";
+import { Menu, Layout } from "antd";
 import { MdManageAccounts } from "react-icons/md";
 import {
   DashboardOutlined,
   SettingOutlined,
   LogoutOutlined,
 } from "@ant-design/icons";
-import { Menu, Layout } from "antd";
+import styles from "./sidebar.module.css";
 
 const { Sider } = Layout;
 
@@ -23,16 +22,15 @@ function getItem(label, key, icon, children, type) {
 }
 
 const items = [
-  getItem("Dashboard", "/", <DashboardOutlined />),
+  getItem("Dashboard", "/dashboard", <DashboardOutlined />),
   getItem("Manage School", "#", <MdManageAccounts />, [
-    getItem("Student", "/manageStudent"),
-    getItem("Standard", "/manageStandard"),
+    getItem("Student", "/manage_student"),
+    getItem("Standard", "/manage_standard"),
   ]),
-  getItem("Actions", "/actions", <GrActions className={styles.action__logo} />),
 ];
 const bottomItems = [
   getItem("Settings", "/settings", <SettingOutlined />),
-  getItem("Logout", "/logout", <LogoutOutlined />),
+  getItem("Logout", "/", <LogoutOutlined />),
 ];
 
 function Sidebar() {
@@ -46,6 +44,10 @@ function Sidebar() {
   const handleMenuChange = (newPath) => {
     setSelectedKeys(newPath);
     navigate(newPath);
+    if(newPath === '/'){
+      localStorage.removeItem("accessToken");
+      localStorage.removeItem("refreshToken");
+    }
   };
 
   const navigate = useNavigate();

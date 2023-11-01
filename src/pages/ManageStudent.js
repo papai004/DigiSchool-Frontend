@@ -4,7 +4,7 @@ import qs from "qs";
 import { Table, Input, Row, Col, Button } from "antd";
 import { SearchOutlined, DownloadOutlined } from "@ant-design/icons";
 import styles from "../components/styles/manage.module.css";
-import StudentFilter from "../components/helper/StudentFilter";
+import StudentFilter from "../helper/StudentFilter";
 import AddStudent from '../components/modal/StudentAddModal';
 
 const columns = [

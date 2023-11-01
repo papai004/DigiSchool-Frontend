@@ -1,16 +1,7 @@
 import { PlusOutlined } from "@ant-design/icons";
 import React, { useState } from "react";
-import { Button, Form, Input, Select, Modal } from "antd";
+import { Button, Form, Input, Select, Modal, Col, Row } from "antd";
 import DatePicker from "antd/lib/date-picker";
-
-const layout = {
-  labelCol: {
-    span: 8,
-  },
-  wrapperCol: {
-    span: 16,
-  },
-};
 
 const prefixSelector = (
   <Form.Item name="prefix" noStyle>
@@ -36,118 +27,136 @@ const validateMessages = {
   },
 };
 const CollectionCreateForm = ({ open, onCancel }) => {
-
   const onFinish = (values) => {
     console.log(values);
   };
 
   return (
-    <Modal
-      width={800}
-      open={open}
-      onCancel={onCancel}
-    >
-      <div
-        style={{ display: "flex", justifyContent: "center", margin: "10px" }}
+    <Modal width={800} open={open} onCancel={onCancel} footer={null}>
+      <div style={{textAlign: 'center'}}><h2><u>Add Student</u></h2></div>
+      <Form
+        layout="vertical"
+        name="nest-messages"
+        onFinish={onFinish}
+        initialValues={{ prefix: "91" }}
+        validateMessages={validateMessages}
       >
-        <Form
-          {...layout}
-          name="nest-messages"
-          onFinish={onFinish}
-          initialValues={{ prefix: "91" }}
-          validateMessages={validateMessages}
-        >
-          <Form.Item
-            name="name"
-            label="Name"
-            rules={[
-              {
-                required: true,
-              },
-            ]}
+        <div style={{ display: "flex" }}>
+          <Row>
+            <Col span={12} style={{ marginRight: "10px" }}>
+              <Form.Item
+                name="name"
+                label="Name"
+                rules={[
+                  {
+                    required: true,
+                  },
+                ]}
+              >
+                <Input placeholder="name" />
+              </Form.Item>
+            </Col>
+            <Col span={11}>
+              <Form.Item
+                name="parentName"
+                label="ParentName"
+                rules={[
+                  {
+                    required: true,
+                  },
+                ]}
+              >
+                <Input placeholder="Parent name" />
+              </Form.Item>
+            </Col>
+            <Col span={12} style={{ marginRight: "10px" }}>
+              <Form.Item
+                name="gender"
+                label="Gender"
+                rules={[
+                  {
+                    required: true,
+                    message: "Please select gender!",
+                  },
+                ]}
+              >
+                <Select placeholder="Select gender">
+                  <Select.Option value="male">Male</Select.Option>
+                  <Select.Option value="female">Female</Select.Option>
+                </Select>
+              </Form.Item>
+            </Col>
+            <Col span={11}>
+              <Form.Item
+                name="roll"
+                label="Roll"
+                rules={[
+                  {
+                    required: true,
+                  },
+                ]}
+              >
+                <Input placeholder="please type roll" />
+              </Form.Item>
+            </Col>
+            <Col span={12} style={{ marginRight: "10px" }}>
+              <Form.Item
+                name="standard"
+                label="Standard"
+                rules={[
+                  {
+                    required: true,
+                  },
+                ]}
+              >
+                <Input placeholder="please type standard" />
+              </Form.Item>
+            </Col>
+            <Col span={11}>
+              <Form.Item
+                name="section"
+                label="Section"
+                rules={[
+                  {
+                    required: true,
+                    message: "Please input section",
+                  },
+                ]}
+              >
+                <Input placeholder="please type section" />
+              </Form.Item>
+            </Col>
+            <Col span={12} style={{ marginRight: "10px" }}>
+              <Form.Item
+                name="phone"
+                label="Phone Number"
+                rules={[
+                  {
+                    required: true,
+                    message: "Please input phone number!",
+                  },
+                ]}
+              >
+                <Input addonBefore={prefixSelector} style={{ width: "100%" }} />
+              </Form.Item>
+            </Col>
+            <Col span={11}>
+              <Form.Item name="date" label="Date">
+                <DatePicker style={{ width: "100%" }} />
+              </Form.Item>
+            </Col>
+          </Row>
+        </div>
+        <Row>
+          <Button
+            type="primary"
+            htmlType="submit"
+            style={{ width: "25%", margin: "auto" }}
           >
-            <Input placeholder="name" />
-          </Form.Item>
-          <Form.Item
-            name="parentName"
-            label="ParentName"
-            rules={[
-              {
-                required: true,
-              },
-            ]}
-          >
-            <Input placeholder="Parent name" />
-          </Form.Item>
-          <Form.Item
-            name="gender"
-            label="Gender"
-            rules={[
-              {
-                required: true,
-                message: "Please select gender!",
-              },
-            ]}
-          >
-            <Select placeholder="Select gender">
-              <Select.Option value="male">Male</Select.Option>
-              <Select.Option value="female">Female</Select.Option>
-            </Select>
-          </Form.Item>
-          <Form.Item
-            name="roll"
-            label="Roll"
-            rules={[
-              {
-                required: true,
-              },
-            ]}
-          >
-            <Input placeholder="please type roll"/>
-          </Form.Item>
-          <Form.Item
-            name="standard"
-            label="Standard"
-            rules={[
-              {
-                required: true,
-              },
-            ]}
-          >
-            <Input placeholder="please type standard"/>
-          </Form.Item>
-          <Form.Item
-            name="section"
-            label="Section"
-            rules={[
-              {
-                required: true,
-                message: "Please input section",
-              },
-            ]}
-          >
-            <Input placeholder="please type section"/>
-          </Form.Item>
-          <Form.Item
-            name="phone"
-            label="Phone Number"
-            rules={[
-              {
-                required: true,
-                message: "Please input phone number!",
-              },
-            ]}
-          >
-            <Input addonBefore={prefixSelector} style={{ width: "100%" }} />
-          </Form.Item>
-          <Form.Item name="date" label="Date">
-            <DatePicker style={{ width: "100%" }} />
-          </Form.Item>
-          <Button type="primary" htmlType="submit" style={{width: '100%'}}>
-        Submit
-      </Button>
-        </Form>
-      </div>
+            Add Student
+          </Button>
+        </Row>
+      </Form>
     </Modal>
   );
 };
