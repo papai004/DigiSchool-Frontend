@@ -1,10 +1,10 @@
 import React from "react";
-import Cards from "../helper/Cards";
+import Cards from "../components/card/Cards";
 import { Row, Col } from "antd";
 import { FaUsers } from "react-icons/fa";
 import { MdMoneyOff } from "react-icons/md";
 import { FcPaid } from "react-icons/fc";
-import "../components/styles/dashboard.css";
+import "../styles/dashboard.css";
 import AppLayout from "../layout/AppLayout";
 
 function Dashboard() {

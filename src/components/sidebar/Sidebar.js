@@ -41,7 +41,7 @@ function Sidebar() {
     if (selectedKeys !== location.pathname) setSelectedKeys(location.pathname);
   }, [location.pathname, selectedKeys]);
 
-  const handleMenuChange = (newPath) => {
+  const handleMenuChange = async(newPath) => {
     setSelectedKeys(newPath);
     navigate(newPath);
     if(newPath === '/'){

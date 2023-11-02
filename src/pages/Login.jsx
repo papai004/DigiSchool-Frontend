@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, Checkbox, Form, Input, notification } from "antd";
 import ContactImg from "../assets/images/contact.svg";
-import "../components/styles/login.css";
+import "../styles/login.css";
 import networkRequest from "../lib/apis/networkRequest";
 
 const Login = () => {
@@ -24,6 +24,7 @@ const Login = () => {
       if (isOk) {
         localStorage.setItem("accessToken", data.accessToken);
         localStorage.setItem("refreshToken", data.refreshToken);
+        // localStorage.setItem("email", values?.email);
 
         navigate("/dashboard");
       } else {

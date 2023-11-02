@@ -1,5 +1,5 @@
 import React from "react";
-import Header from "../components/navs/Header.js";
+import Header from "../components/navs/Header.jsx";
 import Sidebar from "../components/sidebar/Sidebar.js";
 import { Layout, theme } from "antd";
 

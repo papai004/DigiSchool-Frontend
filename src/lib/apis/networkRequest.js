@@ -24,6 +24,8 @@ const networkRequest = async (
       headers,
     });
 
+    console.log("RESPONSE =",response);
+
     return {
       isOk: true,
       ...response?.data,

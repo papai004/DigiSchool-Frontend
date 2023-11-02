@@ -39,14 +39,14 @@ const StandardAddModal = (props) => {
   return (
     <>
       <Button
-        style={{ width: "80px", marginRight: ".5rem", height: "40px" }}
+        style={{ width: 'auto', height: "40px", marginRight: '1rem' }}
         type="primary"
         icon={<PlusOutlined />}
         onClick={() => {
           setOpen(true);
         }}
       >
-        Add
+        Standard
       </Button>
 
       <Modal width={450} open={open} onCancel={onCancel} footer={null}>
@@ -56,12 +56,13 @@ const StandardAddModal = (props) => {
           onFinish={onFinish}
           layout="vertical"
           style={{
-            maxWidth: 600,
+            maxWidth: 450,
             maxHeight: 400,
             overflowY: 'auto',
+            margin: 'auto',
           }}
         >
-          <div style={{textAlign: 'center'}}><h2><u>Add Standard</u></h2></div>
+          <div style={{textAlign: 'center', margin: 'auto'}}><h2><u>Add Standard</u></h2></div>
           <Form.Item name="Standard" label="Enter Standard:">
             <Input style={{maxWidth: '295px'}} />
           </Form.Item>
@@ -108,7 +109,7 @@ const StandardAddModal = (props) => {
                         }}
                       />
                     </Form.Item>
-                    {fields.length > 0 ? (
+                    {fields.length > 1 ? (
                       <MinusCircleOutlined
                         className={styles.dynamic__delete__button}
                         onClick={() => remove(field.name)}

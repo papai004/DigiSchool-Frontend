@@ -3,8 +3,8 @@ import AppLayout from "../layout/AppLayout";
 import qs from "qs";
 import { Table, Input, Row, Col, Button } from "antd";
 import { SearchOutlined, DownloadOutlined } from "@ant-design/icons";
-import styles from "../components/styles/manage.module.css";
-import StudentFilter from "../helper/StudentFilter";
+import styles from "../styles/manage.module.css";
+import StudentFilter from "../components/StudentFilter";
 import AddStudent from '../components/modal/StudentAddModal';
 
 const columns = [
@@ -51,29 +51,29 @@ const Manage = () => {
       pageSize: 10,
     },
   });
-  const fetchData = () => {
+  const fetchData = async () => {
     setLoading(true);
-    fetch(
-      `https://randomuser.me/api?${qs.stringify(
-        getRandomuserParams(tableParams)
-      )}`
-    )
-      .then((res) => res.json())
-      .then(({ results }) => {
-        setData(results);
-        setLoading(false);
-        setTableParams({
-          ...tableParams,
-          pagination: {
-            ...tableParams.pagination,
-            total: 200,
-            // 200 is mock data, you should read it from server
-            // total: data.totalCount,
-          },
-        });
+    
+    try {
+      const response = await fetch(`https://randomuser.me/api?${qs.stringify(getRandomuserParams(tableParams))}`);
+      const data = await response.json();
+      
+      setData(data.results);
+      setLoading(false);
+      setTableParams({
+        ...tableParams,
+        pagination: {
+          ...tableParams.pagination,
+          total: 200, // 200 is mock data, you should read it from the server
+          // total: data.totalCount,
+        },
       });
+    } catch (error) {
+      console.error('An error occurred:', error);
+      setLoading(false);
+    }
   };
-
+  
   useEffect(() => {
     fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
