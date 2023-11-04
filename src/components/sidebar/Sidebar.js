@@ -47,6 +47,7 @@ function Sidebar() {
     if(newPath === '/'){
       localStorage.removeItem("accessToken");
       localStorage.removeItem("refreshToken");
+      localStorage.removeItem("email");
     }
   };
 

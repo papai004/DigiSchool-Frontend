@@ -12,7 +12,7 @@ const networkRequest = async (
     let headers = {};
 
     if (isAuthRequired) {
-      const accessToken = localStorage.getItem("AccessToken");
+      const accessToken = localStorage.getItem("accessToken");
       headers = {
         Authorization: `Bearer ${accessToken}`,
       };
@@ -23,8 +23,6 @@ const networkRequest = async (
       data: body,
       headers,
     });
-
-    console.log("RESPONSE =",response);
 
     return {
       isOk: true,

@@ -24,8 +24,9 @@ const Login = () => {
       if (isOk) {
         localStorage.setItem("accessToken", data.accessToken);
         localStorage.setItem("refreshToken", data.refreshToken);
-        // localStorage.setItem("email", values?.email);
-
+        notification.success({
+          message,
+        });
         navigate("/dashboard");
       } else {
         notification.error({
