@@ -7,9 +7,9 @@ import { FcPaid } from "react-icons/fc";
 import "../styles/dashboard.css";
 import AppLayout from "../layout/AppLayout";
 
-function Dashboard() {
+const Dashboard = () => {
   return (
-    <AppLayout title="Welcome to DigiSchool">
+    <AppLayout>
       <Row gutter={[16, 16]} style={{ margin: 15 }}>
         <Col xs={24} sm={12} md={8}>
           <Cards

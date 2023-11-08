@@ -26,12 +26,13 @@ const StandardAddModal = (props) => {
 
   const [open, setOpen] = useState(false);
   const [form] = Form.useForm();
+
   const onCancel = () => {
     form.resetFields();
     setOpen(false);
   };
   const onFinish = (values) => {
-    props.onAddFormsContent(values);
+    props.addStandardValues(values);
     form.resetFields();
     setOpen(false);
   };

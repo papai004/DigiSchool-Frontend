@@ -1,7 +1,17 @@
 import { PlusOutlined } from "@ant-design/icons";
-import React, { useState } from "react";
-import { Button, Form, Input, Select, Modal, Col, Row } from "antd";
+import React, { useEffect, useState } from "react";
+import {
+  Button,
+  Form,
+  Input,
+  Select,
+  Modal,
+  Col,
+  Row,
+  notification,
+} from "antd";
 import DatePicker from "antd/lib/date-picker";
+import networkRequest from "../../lib/apis/networkRequest";
 
 const prefixSelector = (
   <Form.Item name="prefix" noStyle>
@@ -26,20 +36,77 @@ const validateMessages = {
     range: "${label} must be between ${min} and ${max}",
   },
 };
-const CollectionCreateForm = ({ open, onCancel }) => {
+const CollectionCreateForm = ({ open, onCancel, dataToSend }) => {
+  
+  const [standardData, setStandardData] = useState([]);
+  const [standardValue, setStandardValue] = useState("");
+  const [sectionValue, setSectionValue] = useState([]);
+
   const onFinish = (values) => {
-    console.log(values);
+    dataToSend(values);
+    document.getElementById("student__add__form").reset();
   };
+
+  const getStandardList = async () => {
+    try {
+      const { isOk, message, data } = await networkRequest(
+        "/standard/get_standards_list",
+        "POST",
+        {},
+        true
+      );
+      if (isOk) {
+        setStandardData(data);
+      } else {
+        notification.error({
+          message,
+        });
+      }
+    } catch (err) {
+      console.log("Error =", err);
+    }
+  };
+
+  useEffect(() => {
+    const getSection = () => {
+      // eslint-disable-next-line array-callback-return
+      standardData.map((standard, _) => {
+        if (standard.standard_name === standardValue) {
+          setSectionValue(standard.sections);
+        }
+      });
+    };
+    getSection();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [standardValue]);
+
+  const standardChangeHandler = (event) => {
+    setStandardValue(event);
+  };
+
+  useEffect(() => {
+    getStandardList();
+  }, []);
 
   return (
     <Modal width={800} open={open} onCancel={onCancel} footer={null}>
-      <div style={{textAlign: 'center'}}><h2><u>Add Student</u></h2></div>
+      <div style={{ textAlign: "center" }}>
+        <h2>
+          <u>Add Student</u>
+        </h2>
+      </div>
       <Form
+        id="student__add__form"
         layout="vertical"
         name="nest-messages"
         onFinish={onFinish}
         initialValues={{ prefix: "91" }}
         validateMessages={validateMessages}
+        style={{
+          maxHeight: 400,
+          overflowY: "auto",
+          margin: "auto",
+        }}
       >
         <div style={{ display: "flex" }}>
           <Row>
@@ -94,6 +161,16 @@ const CollectionCreateForm = ({ open, onCancel }) => {
                   {
                     required: true,
                   },
+                  ({ getFieldValue }) => ({
+                    validator(_, value) {
+                      if (/^\d+$/.test(value) && parseInt(value, 10) > 0) {
+                        return Promise.resolve();
+                      }
+                      return Promise.reject(
+                        "Please enter a valid positive number."
+                      );
+                    },
+                  }),
                 ]}
               >
                 <Input placeholder="please type roll" />
@@ -109,7 +186,24 @@ const CollectionCreateForm = ({ open, onCancel }) => {
                   },
                 ]}
               >
-                <Input placeholder="please type standard" />
+                <Select
+                  placeholder="Select Standard"
+                  onChange={standardChangeHandler}
+                  style={{
+                    maxWidth: 400,
+                    maxHeight: 400,
+                    overflowY: "auto",
+                    margin: "auto",
+                  }}
+                >
+                  {standardData.map((standard, idx) => {
+                    return (
+                      <Select.Option key={idx} value={standard.standard_name}>
+                        {standard.standard_name}
+                      </Select.Option>
+                    );
+                  })}
+                </Select>
               </Form.Item>
             </Col>
             <Col span={11}>
@@ -119,21 +213,37 @@ const CollectionCreateForm = ({ open, onCancel }) => {
                 rules={[
                   {
                     required: true,
-                    message: "Please input section",
                   },
                 ]}
               >
-                <Input placeholder="please type section" />
+                <Select
+                  placeholder="Select Standard"
+                  onChange={standardChangeHandler}
+                  style={{
+                    maxWidth: 400,
+                    maxHeight: 400,
+                    overflowY: "auto",
+                    margin: "auto",
+                  }}
+                >
+                  {sectionValue.map((section, index) => {
+                    return (
+                      <Select.Option key={index} value={section.label}>
+                        {section.label}
+                      </Select.Option>
+                    );
+                  })}
+                </Select>
               </Form.Item>
             </Col>
             <Col span={12} style={{ marginRight: "10px" }}>
               <Form.Item
-                name="phone"
-                label="Phone Number"
+                name="mobileNo"
+                label="Mobile Number"
                 rules={[
                   {
                     required: true,
-                    message: "Please input phone number!",
+                    message: "Please input mobile number!",
                   },
                 ]}
               >
@@ -143,6 +253,41 @@ const CollectionCreateForm = ({ open, onCancel }) => {
             <Col span={11}>
               <Form.Item name="date" label="Date">
                 <DatePicker style={{ width: "100%" }} />
+              </Form.Item>
+            </Col>
+            <Col span={12} style={{ marginRight: "10px" }}>
+              <Form.Item
+                name="address"
+                label="Address"
+                rules={[
+                  {
+                    required: true,
+                  },
+                ]}
+              >
+                <Input placeholder="address" />
+              </Form.Item>
+            </Col>
+            <Col span={11}>
+              <Form.Item
+                name="bloodGroup"
+                label="BloodGroup"
+                rules={[
+                  {
+                    required: true,
+                  },
+                ]}
+              >
+                <Select placeholder="Select blood group">
+                  <Select.Option value="A+">A+</Select.Option>
+                  <Select.Option value="O+">O+</Select.Option>
+                  <Select.Option value="B+">B+</Select.Option>
+                  <Select.Option value="AB+">AB+</Select.Option>
+                  <Select.Option value="A-">A-</Select.Option>
+                  <Select.Option value="O-">O-</Select.Option>
+                  <Select.Option value="B-">B-</Select.Option>
+                  <Select.Option value="AB-">AB-</Select.Option>
+                </Select>
               </Form.Item>
             </Col>
           </Row>
@@ -161,12 +306,14 @@ const CollectionCreateForm = ({ open, onCancel }) => {
   );
 };
 
-const StudentAddModal = () => {
+const StudentAddModal = (props) => {
   const [open, setOpen] = useState(false);
+
   const onCreate = (values) => {
-    console.log("Received values of form: ", values);
     setOpen(false);
+    props.sutdentData(values);
   };
+
   return (
     <div>
       <Button
@@ -181,7 +328,7 @@ const StudentAddModal = () => {
       </Button>
       <CollectionCreateForm
         open={open}
-        onCreate={onCreate}
+        dataToSend={onCreate}
         onCancel={() => {
           setOpen(false);
         }}

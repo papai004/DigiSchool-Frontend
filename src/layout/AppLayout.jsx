@@ -16,7 +16,6 @@ const AppLayout = (props) => {
             padding: 0,
             background: colorBgContainer,
           }}
-          title="Dashboard"
         />
         {props.children}
       </Layout>

@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import AppLayout from "../layout/AppLayout";
 import qs from "qs";
-import { Table, Input, Row, Col, Button } from "antd";
+import { Table, Input, Row, Col, Button, notification } from "antd";
 import { SearchOutlined, DownloadOutlined } from "@ant-design/icons";
 import styles from "../styles/manage.module.css";
 import StudentFilter from "../components/StudentFilter";
 import AddStudent from '../components/modal/StudentAddModal';
+import networkRequest from "../lib/apis/networkRequest";
 
 const columns = [
   {
@@ -95,6 +96,40 @@ const Manage = () => {
     data.preventDefault();
     console.log(data);
   };
+
+  const postSutdentDataHandler = async(values) => {
+    const reqBody = {
+      name: values.name,
+      parentName: values.parentName,
+      gender: values.gender,
+      standard: values.standard,
+      section: values.section,
+      roll: values.roll,
+      mobileNo: values.mobileNo,
+      address: values.address,
+      bloodGroup: values.bloodGroup
+    };
+    try {
+      const { isOk, message } = await networkRequest(
+        "/student//create_student",
+        "POST",
+        reqBody,
+        true
+      );
+      if (!isOk) {
+        notification.error({
+          message,
+        });
+      } else {
+        // getStandardList();
+        notification.success({
+          message
+        });
+      }
+    } catch (err) {
+      console.log("Error =", err);
+    }
+  }
   return (
     <AppLayout title="Students Details">
       <div className={styles.filter}>
@@ -117,7 +152,7 @@ const Manage = () => {
           >
             Search
           </Button>
-          <AddStudent />
+          <AddStudent sutdentData={postSutdentDataHandler}/>
       <Button type="primary" className={styles.filter__items}>
       <DownloadOutlined />
       </Button>
