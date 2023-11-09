@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Card, Col, Row, notification, Button, Tag } from "antd";
+import { Card, Col, Row, notification, Button, Tag, Empty } from "antd";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import AppLayout from "../layout/AppLayout";
 import StandardAddModal from "../components/modal/StandardAddModal";
@@ -32,8 +32,10 @@ const ManageStandard = () => {
   const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
   const [dataToUpdate, setDataToUpdate] = useState(null);
   const [dataToDelete, setDataToDelete] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const getStandardList = async () => {
+    setLoading(true);
     try {
       const { isOk, message, data } = await networkRequest(
         "/standard/get_standards_list",
@@ -43,13 +45,16 @@ const ManageStandard = () => {
       );
       if (isOk) {
         setStandardValue(data);
+        setLoading(false);
       } else {
         notification.error({
           message,
         });
+        setLoading(false);
       }
     } catch (err) {
       console.log("Error =", err);
+      setLoading(false);
     }
   };
 
@@ -127,69 +132,77 @@ const ManageStandard = () => {
           />
         )}
       </div>
-      <div style={{ margin: "1rem" }}>
-        <Row>
-          {standardValue.map((values, idx) => {
-            return (
-              <Col span={4} key={idx}>
-                <Card
-                  key={idx}
-                  style={{
-                    textAlign: "center",
-                    margin: "0.5rem",
-                    height: "35vh",
-                  }}
-                >
-                  <div
+      {!standardValue ? (
+        <Empty />
+      ) : (
+        <div loading={loading} style={{ margin: "1rem" }}>
+          <Row>
+            {standardValue.map((values, idx) => {
+              return (
+                <Col span={4} key={idx}>
+                  <Card
+                    key={idx}
                     style={{
-                      display: "flex",
-                      alignItems: "flex-end",
-                      marginTop: "0.5rem",
+                      textAlign: "center",
+                      margin: "0.5rem",
+                      height: "35vh",
                     }}
                   >
-                    <div style={{ marginLeft: "auto", marginRight: "0.2rem" }}>
-                      <Button
-                        icon={<EditOutlined />}
-                        onClick={() => editHandler(values)}
-                      />
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "flex-end",
+                        marginTop: "0.5rem",
+                      }}
+                    >
+                      <div
+                        style={{ marginLeft: "auto", marginRight: "0.2rem" }}
+                      >
+                        <Button
+                          icon={<EditOutlined />}
+                          onClick={() => editHandler(values)}
+                        />
+                      </div>
+                      <div>
+                        <Button
+                          danger
+                          icon={<DeleteOutlined />}
+                          onClick={() => deleteHandler(values)}
+                        />
+                      </div>
                     </div>
-                    <div>
-                      <Button
-                        danger
-                        icon={<DeleteOutlined />}
-                        onClick={() => deleteHandler(values)}
-                      />
-                    </div>
-                  </div>
-                  <p style={{ margin: "0.5rem" }}>
-                    Std:{" "}
-                    <b>
-                      <Tag color={getRandomColor()}>{values.standard_name}</Tag>
-                    </b>
-                  </p>
-                  <br />
-                  <p style={{ margin: "0.5rem" }}>Section: </p>
-                  <Row>
-                    {values.sections.map((section, idx) => {
-                      return (
-                        <Col span={8} key={idx}>
-                          <Tag
-                            color={getRandomColor()}
-                            key={idx}
-                            style={{ margin: "0.2rem" }}
-                          >
-                            {section.label}
-                          </Tag>
-                        </Col>
-                      );
-                    })}
-                  </Row>
-                </Card>
-              </Col>
-            );
-          })}
-        </Row>
-      </div>
+                    <p style={{ margin: "0.5rem" }}>
+                      Std:{" "}
+                      <b>
+                        <Tag color={getRandomColor()}>
+                          {values.standard_name}
+                        </Tag>
+                      </b>
+                    </p>
+                    <br />
+                    <p style={{ margin: "0.5rem" }}>Section: </p>
+                    <Row>
+                      {values.sections.map((section, idx) => {
+                        return (
+                          <Col span={8} key={idx}>
+                            <Tag
+                              color={getRandomColor()}
+                              key={idx}
+                              style={{ margin: "0.2rem" }}
+                            >
+                              {section.label}
+                            </Tag>
+                          </Col>
+                        );
+                      })}
+                    </Row>
+                  </Card>
+                </Col>
+              );
+            })}
+          </Row>
+        </div>
+      )}
     </AppLayout>
   );
 };

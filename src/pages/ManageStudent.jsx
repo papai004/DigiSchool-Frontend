@@ -1,103 +1,87 @@
 import React, { useEffect, useState } from "react";
 import AppLayout from "../layout/AppLayout";
-import qs from "qs";
-import { Table, Input, Row, Col, Button, notification } from "antd";
-import { SearchOutlined, DownloadOutlined } from "@ant-design/icons";
+import { MdOutlineBloodtype } from "react-icons/md";
+import { Table, Input, Row, Col, Button, notification, Empty } from "antd";
+import { SearchOutlined, DownloadOutlined, EditOutlined } from "@ant-design/icons";
 import styles from "../styles/manage.module.css";
 import StudentFilter from "../components/StudentFilter";
-import AddStudent from '../components/modal/StudentAddModal';
+import AddStudent from "../components/modal/StudentAddModal";
 import networkRequest from "../lib/apis/networkRequest";
 
-const columns = [
-  {
-    title: "Name",
-    dataIndex: "name",
-    render: (name) => `${name.first} ${name.last}`,
-  },
-  {
-    title: "Gender",
-    dataIndex: "gender",
-    width: "10%",
-  },
-  {
-    title: "Standard",
-    dataIndex: "standard",
-    width: "10%",
-  },
-  {
-    title: "Section",
-    dataIndex: "section",
-    width: "10%",
-  },
-  {
-    title: "PhoneNo",
-    dataIndex: "phoneNo",
-  },
-  {
-    title: "Edit",
-    dataIndex: "edit",
-  },
-];
-const getRandomuserParams = (params) => ({
-  results: params.pagination?.pageSize,
-  page: params.pagination?.current,
-  ...params,
-});
-const Manage = () => {
+const ManageStudent = () => {
+
+  const columns = [
+    {
+      title: "Name",
+      dataIndex: "name",
+      key: "_id",
+    },
+    {
+      title: "ParentName",
+      dataIndex: "parentName",
+      key: "_id",
+    },
+    {
+      title: "Gender",
+      dataIndex: "gender",
+      width: "10%",
+      key: "_id",
+    },
+    {
+      title: "Standard",
+      dataIndex: "standard",
+      width: "10%",
+      key: "_id",
+    },
+    {
+      title: "Section",
+      dataIndex: "section",
+      width: "10%",
+      key: "_id",
+    },
+    {
+      title: "Roll",
+      dataIndex: "roll",
+      width: "7%",
+      key: "_id",
+    },
+    {
+      title: "MobileNo",
+      dataIndex: "mobileNo",
+      key: "_id",
+    },
+    {
+      title: <MdOutlineBloodtype/>,
+      dataIndex: "bloodGroup",
+      width: "7%",
+      key: "_id",
+    },
+    {
+      title: "Edit",
+      dataIndex: "",
+      width: "6%",
+      key: "_id",
+      render: () => <Button onClick={() =>editHandler()} icon={<EditOutlined />}/>,
+    },
+  ];
+
+  const editHandler = (values) => {
+    console.log("Values to be edited",values);
+  }
   const [data, setData] = useState();
   const [loading, setLoading] = useState(false);
+  // eslint-disable-next-line no-unused-vars
+  const [studentDetails, setStudentDetails] = useState(null);
   const [tableParams, setTableParams] = useState({
     pagination: {
       current: 1,
       pageSize: 10,
     },
   });
-  const fetchData = async () => {
-    setLoading(true);
-    
-    try {
-      const response = await fetch(`https://randomuser.me/api?${qs.stringify(getRandomuserParams(tableParams))}`);
-      const data = await response.json();
-      
-      setData(data.results);
-      setLoading(false);
-      setTableParams({
-        ...tableParams,
-        pagination: {
-          ...tableParams.pagination,
-          total: 200, // 200 is mock data, you should read it from the server
-          // total: data.totalCount,
-        },
-      });
-    } catch (error) {
-      console.error('An error occurred:', error);
-      setLoading(false);
-    }
-  };
-  
-  useEffect(() => {
-    fetchData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [JSON.stringify(tableParams)]);
-  const handleTableChange = (pagination, filters, sorter) => {
-    setTableParams({
-      pagination,
-      filters,
-      ...sorter,
-    });
 
-    // `dataSource` is useless since `pageSize` changed
-    if (pagination.pageSize !== tableParams.pagination?.pageSize) {
-      setData([]);
-    }
-  };
+  console.log("data =", data); 
 
-  const onChangeHandler = (data) => {
-    data.preventDefault();
-    console.log(data);
-  };
-
-  const postSutdentDataHandler = async(values) => {
+  const postSutdentDataHandler = async (values) => {
     const reqBody = {
       name: values.name,
       parentName: values.parentName,
@@ -107,11 +91,11 @@ const Manage = () => {
       roll: values.roll,
       mobileNo: values.mobileNo,
       address: values.address,
-      bloodGroup: values.bloodGroup
+      bloodGroup: values.bloodGroup,
     };
     try {
       const { isOk, message } = await networkRequest(
-        "/student//create_student",
+        "/student/create_student",
         "POST",
         reqBody,
         true
@@ -121,15 +105,72 @@ const Manage = () => {
           message,
         });
       } else {
-        // getStandardList();
+        getStudentList();
         notification.success({
-          message
+          message,
         });
       }
     } catch (err) {
       console.log("Error =", err);
     }
-  }
+  };
+
+  const getStudentList = async () => {
+    setLoading(true);
+    try {
+      const { isOk, message, data } = await networkRequest(
+        "/student/get_students_by_school",
+        "POST",
+        {
+          page: `${tableParams.pagination.current}`,
+          size: `${tableParams.pagination.pageSize}`,
+        },
+        true
+      );
+      if (isOk) {
+        setData(data.studentList);
+        setStudentDetails(prevState => ({
+          ...prevState,
+          data: data.studentList,
+        }));
+        setLoading(false);
+        setTableParams(prevState => ({
+          ...prevState,
+          pagination: {
+            ...prevState.pagination,
+            total: data.count,
+          },
+        }));
+      } else {
+        notification.error({
+          message,
+        });
+        setLoading(false);
+      }
+    } catch (err) {
+      console.log("Error =", err);
+      setLoading(false);
+    }
+  };
+
+  const handleTableChange = (pagination) => {
+    setTableParams({
+      pagination,
+    });
+    if (pagination.pageSize !== tableParams.pagination?.pageSize) {
+      setData([]);
+    }
+  };
+
+  const searchHandler = (data) => {
+    data.preventDefault();
+  };
+
+  useEffect(() => {
+    getStudentList();
+  // eslint-disable-next-line react-hooks/exhaustive-deps 
+  }, [JSON.stringify(tableParams),tableParams.pagination.total]);
+
   return (
     <AppLayout title="Students Details">
       <div className={styles.filter}>
@@ -141,37 +182,40 @@ const Manage = () => {
             />
           </Col>
           <Col span={8}>
-          <StudentFilter />
+            <StudentFilter />
           </Col>
           <Button
             type="primary"
             icon={<SearchOutlined />}
             className={styles.filter__items}
             style={{ marginLeft: ".5rem" }}
-            onClick={onChangeHandler}
+            onClick={searchHandler}
           >
             Search
           </Button>
-          <AddStudent sutdentData={postSutdentDataHandler}/>
-      <Button type="primary" className={styles.filter__items}>
-      <DownloadOutlined />
-      </Button>
+          <AddStudent sutdentData={postSutdentDataHandler} />
+          <Button type="primary" className={styles.filter__items}>
+            <DownloadOutlined />
+          </Button>
         </Row>
       </div>
-      <Table
-      size="small"
-        style={{ marginLeft: "1rem", marginRight: "1rem" }}
-        columns={columns}
-        rowKey={(record) => record.login.uuid}
-        dataSource={data}
-        pagination={tableParams.pagination}
-        loading={loading}
-        scroll={{
-          y: 456,
-        }}
-        onChange={handleTableChange}
-      />
+      {!data ? (
+        <Empty />
+      ) : (
+        <Table
+          size="small"
+          style={{ marginLeft: "1rem", marginRight: "1rem"}}
+          columns={columns}
+          dataSource={data}
+          pagination={tableParams.pagination}
+          loading={loading}
+          scroll={{
+            y: 420,
+          }}
+          onChange={handleTableChange}
+        />
+      )}
     </AppLayout>
   );
 };
-export default Manage;
+export default ManageStudent;
