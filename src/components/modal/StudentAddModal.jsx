@@ -59,7 +59,7 @@ const CollectionCreateForm = ({ open, onCancel, dataToSend }) => {
         setStandardData(data);
       } else {
         notification.error({
-          message,
+          message: message || "Something went wrong :(",
         });
       }
     } catch (err) {

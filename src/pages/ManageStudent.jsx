@@ -102,7 +102,7 @@ const ManageStudent = () => {
       );
       if (!isOk) {
         notification.error({
-          message,
+          message : message || "Something went wrong :(",
         });
       } else {
         getStudentList();
@@ -143,7 +143,7 @@ const ManageStudent = () => {
         }));
       } else {
         notification.error({
-          message,
+          message: message || "Something went wrong :("
         });
         setLoading(false);
       }
