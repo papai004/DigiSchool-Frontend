@@ -68,7 +68,8 @@ const EditStudentModal = ({ open, dataToSend, onCancel, payloadData }) => {
     }
   };
 
-  const standardChangeHandler = (event) => {
+  const standardChangeHandler = async (event) => {
+    form.setFieldValue("section", "")
     setStandardValue(event);
   };
 

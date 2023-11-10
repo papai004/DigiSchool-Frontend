@@ -48,7 +48,7 @@ const ManageStandard = () => {
         setLoading(false);
       } else {
         notification.error({
-          message,
+          message: message || "Something went wrong :(",
         });
         setLoading(false);
       }
@@ -75,7 +75,7 @@ const ManageStandard = () => {
       );
       if (!isOk) {
         notification.error({
-          message,
+          message: message || "Something went wrong :(",
         });
       } else {
         getStandardList();

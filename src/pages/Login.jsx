@@ -30,7 +30,7 @@ const Login = () => {
         navigate("/dashboard");
       } else {
         notification.error({
-          message,
+          message: message || "something went wrong :(",
         });
       }
     } catch (err) {
