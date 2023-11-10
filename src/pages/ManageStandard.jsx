@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Card, Col, Row, notification, Button, Tag, Empty } from "antd";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import AppLayout from "../layout/AppLayout";
-import StandardAddModal from "../components/modal/StandardAddModal";
+import AddStandardModal from "../components/modal/AddStandardModal";
 import networkRequest from "../lib/apis/networkRequest";
 import StandardEditModal from "../components/modal/StandardEditModal";
 import StandardDeleteModal from "../components/modal/StandardDeleteModal";
@@ -116,7 +116,7 @@ const ManageStandard = () => {
           marginTop: "1rem",
         }}
       >
-        <StandardAddModal addStandardValues={addStandardHandler} />
+        <AddStandardModal addStandardValues={addStandardHandler} />
         {isModalVisible && (
           <StandardEditModal
             visible={isModalVisible}

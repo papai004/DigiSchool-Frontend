@@ -1,85 +1,107 @@
 import React, { useEffect, useState } from "react";
-import AppLayout from "../layout/AppLayout";
 import { MdOutlineBloodtype } from "react-icons/md";
-import { Table, Input, Row, Col, Button, notification, Empty } from "antd";
-import { SearchOutlined, DownloadOutlined, EditOutlined } from "@ant-design/icons";
+import {
+  Table,
+  Input,
+  Row,
+  Col,
+  Button,
+  notification,
+  Empty,
+} from "antd";
+import {
+  SearchOutlined,
+  DownloadOutlined,
+  EditOutlined,
+  PlusOutlined,
+} from "@ant-design/icons";
+import AppLayout from "../layout/AppLayout";
 import styles from "../styles/manage.module.css";
 import StudentFilter from "../components/StudentFilter";
-import AddStudent from "../components/modal/StudentAddModal";
 import networkRequest from "../lib/apis/networkRequest";
+import AddStudentModal from "../components/modal/AddStudentModal";
+import EditStudentModal from "../components/modal/EditStudentModal";
 
 const ManageStudent = () => {
-
   const columns = [
     {
       title: "Name",
       dataIndex: "name",
-      key: "_id",
+      key: "name",
     },
     {
       title: "ParentName",
       dataIndex: "parentName",
-      key: "_id",
+      key: "parentName",
     },
     {
       title: "Gender",
       dataIndex: "gender",
       width: "10%",
-      key: "_id",
+      key: "gender",
     },
     {
       title: "Standard",
       dataIndex: "standard",
       width: "10%",
-      key: "_id",
+      key: "standard",
     },
     {
       title: "Section",
       dataIndex: "section",
       width: "10%",
-      key: "_id",
+      key: "section",
     },
     {
       title: "Roll",
       dataIndex: "roll",
       width: "7%",
-      key: "_id",
+      key: "roll",
     },
     {
       title: "MobileNo",
       dataIndex: "mobileNo",
-      key: "_id",
+      key: "mobileNo",
     },
     {
-      title: <MdOutlineBloodtype/>,
+      title: <MdOutlineBloodtype />,
       dataIndex: "bloodGroup",
       width: "7%",
-      key: "_id",
+      key: "bloodGroup",
     },
     {
       title: "Edit",
       dataIndex: "",
       width: "6%",
       key: "_id",
-      render: () => <Button onClick={() =>editHandler()} icon={<EditOutlined />}/>,
+      render: (_id) => (
+        <Button onClick={() => editHandler(_id)} icon={<EditOutlined />} />
+      ),
     },
   ];
 
-  const editHandler = (values) => {
-    console.log("Values to be edited",values);
-  }
   const [data, setData] = useState();
   const [loading, setLoading] = useState(false);
   // eslint-disable-next-line no-unused-vars
   const [studentDetails, setStudentDetails] = useState(null);
+  const [indexSearchText, setIndexSearchText] = useState("");
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [dataToSendForEdit, setDataToSendForEdit] = useState([]);
+  const [editData, setEditData] = useState({
+    standard: "",
+    section: "",
+    roll: "",
+  });
+
+  // console.log("First =", editData);
+
   const [tableParams, setTableParams] = useState({
     pagination: {
       current: 1,
       pageSize: 10,
     },
   });
-
-  console.log("data =", data); 
 
   const postSutdentDataHandler = async (values) => {
     const reqBody = {
@@ -93,6 +115,8 @@ const ManageStudent = () => {
       address: values.address,
       bloodGroup: values.bloodGroup,
     };
+
+    console.log("Values for creating =", reqBody);
     try {
       const { isOk, message } = await networkRequest(
         "/student/create_student",
@@ -105,10 +129,11 @@ const ManageStudent = () => {
           message : message || "Something went wrong :(",
         });
       } else {
-        getStudentList();
+        setIsAddModalOpen(false)
         notification.success({
           message,
         });
+        getStudentList();
       }
     } catch (err) {
       console.log("Error =", err);
@@ -122,6 +147,7 @@ const ManageStudent = () => {
         "/student/get_students_by_school",
         "POST",
         {
+          searchString: indexSearchText,
           page: `${tableParams.pagination.current}`,
           size: `${tableParams.pagination.pageSize}`,
         },
@@ -129,12 +155,12 @@ const ManageStudent = () => {
       );
       if (isOk) {
         setData(data.studentList);
-        setStudentDetails(prevState => ({
+        setStudentDetails((prevState) => ({
           ...prevState,
           data: data.studentList,
         }));
         setLoading(false);
-        setTableParams(prevState => ({
+        setTableParams((prevState) => ({
           ...prevState,
           pagination: {
             ...prevState.pagination,
@@ -162,14 +188,77 @@ const ManageStudent = () => {
     }
   };
 
+  const textIndexSearchHandler = (event) => {
+    const searchString = event.target.value;
+    setIndexSearchText(searchString);
+  };
+
   const searchHandler = (data) => {
     data.preventDefault();
   };
 
+  const editHandler = (values) => {
+    setEditData({
+      standard: values.standard,
+      section: values.section,
+      roll: values.roll,
+    });
+    setDataToSendForEdit(values);
+    setIsEditModalOpen(true);
+  };
+
+  const editModalCancleHandler = () => {
+    setIsEditModalOpen(false);
+  };
+
+  const editedDataHandler = async (values) => {
+    const reqBody = {
+      standard: editData.standard,
+      section: editData.section,
+      roll: editData.roll,
+      parentNameToUpdate: values.parentName,
+      mobileNoToUpdate: values.mobileNo,
+      addressToUpdate: values.address,
+      standardToUpdate: values.standard,
+      sectionToUpdate: values.section,
+      rollToUpdate: values.roll,
+    };
+    console.log("ReqBody", reqBody);
+    try {
+      const { isOk, message } = await networkRequest(
+        "/student/update_student",
+        "POST",
+        reqBody,
+        true
+      );
+      if (!isOk) {
+        notification.error({
+          message,
+        });
+      } else {
+        notification.success({
+          message,
+        });
+        getStudentList();
+        setIsEditModalOpen(false);
+      }
+    } catch (err) {
+      console.log("Error =", err);
+    }
+  };
+
+  useEffect(() => {
+    const getData = setTimeout(() => {
+      getStudentList();
+    }, 1000);
+    return () => clearTimeout(getData);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [indexSearchText]);
+
   useEffect(() => {
     getStudentList();
-  // eslint-disable-next-line react-hooks/exhaustive-deps 
-  }, [JSON.stringify(tableParams),tableParams.pagination.total]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [JSON.stringify(tableParams), tableParams.pagination.total]);
 
   return (
     <AppLayout title="Students Details">
@@ -177,11 +266,12 @@ const ManageStudent = () => {
         <Row>
           <Col span={10} className={styles.filter__items}>
             <Input
+              onChange={textIndexSearchHandler}
               placeholder="type something"
               className={styles.filter__items}
             />
           </Col>
-          <Col span={8}>
+          <Col span={5}>
             <StudentFilter />
           </Col>
           <Button
@@ -193,7 +283,33 @@ const ManageStudent = () => {
           >
             Search
           </Button>
-          <AddStudent sutdentData={postSutdentDataHandler} />
+          <div>
+            <Button
+              style={{ width: "80px", marginRight: ".5rem", height: "40px" }}
+              type="primary"
+              icon={<PlusOutlined />}
+              onClick={() => {
+                setIsAddModalOpen(true);
+              }}
+            >
+              Add
+            </Button>
+            <AddStudentModal
+              open={isAddModalOpen}
+              dataToSend={postSutdentDataHandler}
+              onCancel={() => {
+                setIsAddModalOpen(false);
+              }}
+            />
+          </div>
+          {isEditModalOpen && (
+            <EditStudentModal
+              open={isEditModalOpen}
+              onCancel={editModalCancleHandler}
+              dataToSend={dataToSendForEdit}
+              payloadData={editedDataHandler}
+            />
+          )}
           <Button type="primary" className={styles.filter__items}>
             <DownloadOutlined />
           </Button>
@@ -204,13 +320,13 @@ const ManageStudent = () => {
       ) : (
         <Table
           size="small"
-          style={{ marginLeft: "1rem", marginRight: "1rem"}}
+          style={{ marginLeft: "1rem", marginRight: "1rem" }}
           columns={columns}
           dataSource={data}
           pagination={tableParams.pagination}
           loading={loading}
           scroll={{
-            y: 420,
+            y: 445,
           }}
           onChange={handleTableChange}
         />

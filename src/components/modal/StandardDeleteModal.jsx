@@ -2,7 +2,7 @@ import { Button, Modal, Tag } from "antd";
 import React from "react";
 
 const StandardDeleteModal = ({ visible, onClose, payloadData }) => {
-  console.log("payloadData =", payloadData);
+
   return (
     <Modal
       open={visible}

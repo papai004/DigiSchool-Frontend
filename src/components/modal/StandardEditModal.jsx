@@ -9,7 +9,6 @@ const StandardEditModal = ({ visible, onClose, payloadData }) => {
   const [form] = useForm();
 
   useEffect(() => {
-    // form.setFieldValue("standard_name", payloadData?.standard_name);
     setData({
       standard_name: payloadData?.standard_name,
       sections: payloadData?.sections,
