@@ -168,6 +168,7 @@ const ManageStudent = () => {
           },
         }));
       } else {
+        setData([]);
         notification.error({
           message: message || "Something went wrong :("
         });
