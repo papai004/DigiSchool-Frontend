@@ -1,4 +1,3 @@
-import { PlusOutlined } from "@ant-design/icons";
 import React, { useEffect, useState } from "react";
 import {
   Button,
@@ -36,15 +35,21 @@ const validateMessages = {
     range: "${label} must be between ${min} and ${max}",
   },
 };
-const CollectionCreateForm = ({ open, onCancel, dataToSend }) => {
-  
+
+const AddStudentModal = ({ open, onCancel, dataToSend }) => {
   const [standardData, setStandardData] = useState([]);
   const [standardValue, setStandardValue] = useState("");
   const [sectionValue, setSectionValue] = useState([]);
 
   const onFinish = (values) => {
     dataToSend(values);
-    document.getElementById("student__add__form").reset();
+    if (open === false) {
+      document.getElementById("student__add__form").reset();
+    }
+  };
+
+  const standardChangeHandler = (event) => {
+    setStandardValue(event);
   };
 
   const getStandardList = async () => {
@@ -67,29 +72,32 @@ const CollectionCreateForm = ({ open, onCancel, dataToSend }) => {
     }
   };
 
+  const getSection = () => {
+    // eslint-disable-next-line array-callback-return
+    standardData.map((standard, _) => {
+      if (standard.standard_name === standardValue) {
+        setSectionValue(standard.sections);
+      }
+    });
+  };
+
   useEffect(() => {
-    const getSection = () => {
-      // eslint-disable-next-line array-callback-return
-      standardData.map((standard, _) => {
-        if (standard.standard_name === standardValue) {
-          setSectionValue(standard.sections);
-        }
-      });
-    };
     getSection();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [standardValue]);
-
-  const standardChangeHandler = (event) => {
-    setStandardValue(event);
-  };
 
   useEffect(() => {
     getStandardList();
   }, []);
 
   return (
-    <Modal width={800} open={open} onCancel={onCancel} footer={null}>
+    <Modal
+      width={800}
+      open={open}
+      onCancel={onCancel}
+      footer={null}
+      maskClosable={false}
+    >
       <div style={{ textAlign: "center" }}>
         <h2>
           <u>Add Student</u>
@@ -217,8 +225,7 @@ const CollectionCreateForm = ({ open, onCancel, dataToSend }) => {
                 ]}
               >
                 <Select
-                  placeholder="Select Standard"
-                  onChange={standardChangeHandler}
+                  placeholder="Select Section"
                   style={{
                     maxWidth: 400,
                     maxHeight: 400,
@@ -306,34 +313,4 @@ const CollectionCreateForm = ({ open, onCancel, dataToSend }) => {
   );
 };
 
-const StudentAddModal = (props) => {
-  const [open, setOpen] = useState(false);
-
-  const onCreate = (values) => {
-    setOpen(false);
-    props.sutdentData(values);
-  };
-
-  return (
-    <div>
-      <Button
-        style={{ width: "80px", marginRight: ".5rem", height: "40px" }}
-        type="primary"
-        icon={<PlusOutlined />}
-        onClick={() => {
-          setOpen(true);
-        }}
-      >
-        Add
-      </Button>
-      <CollectionCreateForm
-        open={open}
-        dataToSend={onCreate}
-        onCancel={() => {
-          setOpen(false);
-        }}
-      />
-    </div>
-  );
-};
-export default StudentAddModal;
+export default AddStudentModal;
