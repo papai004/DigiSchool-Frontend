@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { Button, Checkbox, Form, Input, notification } from "antd";
+import { Button, Form, Input, notification } from "antd";
 import ContactImg from "../assets/images/contact.svg";
 import "../styles/login.css";
 import networkRequest from "../lib/apis/networkRequest";
@@ -97,14 +97,13 @@ const Login = () => {
             </Form.Item>
 
             <Form.Item
-              name="remember"
-              valuePropName="checked"
+              name="forgot password"
               wrapperCol={{
                 offset: 8,
                 span: 16,
               }}
             >
-              <Checkbox>Remember me</Checkbox>
+              <>forgot password?</>
             </Form.Item>
 
             <Form.Item

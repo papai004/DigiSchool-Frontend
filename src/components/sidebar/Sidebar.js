@@ -63,7 +63,6 @@ function Sidebar() {
         <h2>DigiSchool</h2>
       </div>
       <div className={styles.sidebar__items}>
-        <React.Fragment>
           <Menu
             theme="dark"
             mode="inline"
@@ -73,7 +72,6 @@ function Sidebar() {
             selectedKeys={[selectedKeys]}
             items={items}
           />
-        </React.Fragment>
         <div>
           <Menu
             style={{ marginBottom: "auto" }}

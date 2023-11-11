@@ -1,8 +1,11 @@
 import { Button, Modal, Tag } from "antd";
 import React from "react";
 
-const StandardDeleteModal = ({ visible, onClose, payloadData }) => {
+const StandardDeleteModal = ({ visible, onClose, payloadData, response }) => {
 
+  const deleteResponseHandler = () => {
+    response("OK");
+  }
   return (
     <Modal
       open={visible}
@@ -17,10 +20,10 @@ const StandardDeleteModal = ({ visible, onClose, payloadData }) => {
       </h3>
       <div style={{ display: "flex", justifyContent: "center" }}>
         <div>
-          <Button danger style={{ marginRight: "0.4rem" }}>
+          <Button type="primary" onClick={deleteResponseHandler} danger style={{ marginRight: "0.4rem" }}>
             Yes
           </Button>
-          <Button>No</Button>
+          <Button type="primary" onClick={onClose}>No</Button>
         </div>
       </div>
     </Modal>

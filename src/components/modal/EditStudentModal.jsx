@@ -53,7 +53,7 @@ const EditStudentModal = ({ open, dataToSend, onCancel, payloadData }) => {
         setStandardData(data);
       } else {
         notification.error({
-          message,
+          message: message || "Something Went Wrong.",
         });
       }
     } catch (err) {

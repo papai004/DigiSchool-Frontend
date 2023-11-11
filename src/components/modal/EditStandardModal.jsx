@@ -59,7 +59,6 @@ const StandardEditModal = ({ visible, onClose, payloadData, modalDataToUpadte })
 
   const handleSectionChange = (event, index) => {
     const value = event?.target?.value;
-    console.log(event, index);
     setData((oldData) => ({
       ...oldData,
       sections: data?.sections?.map((item, idx) => {

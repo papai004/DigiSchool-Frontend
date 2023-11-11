@@ -1,3 +1,4 @@
+import { notification } from "antd";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -8,6 +9,9 @@ const PrivateRoute = (props) => {
 
   useEffect(() => {
     if (!isAuthenticated) {
+      notification.error({
+        message: "Please log in to access"
+      });
       navigate("/");
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps

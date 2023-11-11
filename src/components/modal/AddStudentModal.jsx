@@ -54,10 +54,13 @@ const AddStudentModal = ({ open, onCancel, dataToSend }) => {
         setStandardData(data);
       } else {
         notification.error({
-          message: message || "Something went wrong :(",
+          message: message || "Something went wrong",
         });
       }
     } catch (err) {
+      notification.error({
+        message: "Something went wrong",
+      });
       console.log("Error =", err);
     }
   };

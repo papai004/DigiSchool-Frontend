@@ -53,6 +53,9 @@ const ManageStandard = () => {
         setLoading(false);
       }
     } catch (err) {
+      notification.error({
+        message: "Something went wrong",
+      });
       console.log("Error =", err);
       setLoading(false);
     }
@@ -86,7 +89,6 @@ const ManageStandard = () => {
   };
 
   const editStandardHandler = async (values) => {
-    console.log("Got values", values);
     const reqBody = {
       standard_id: values.standard_id,
       standard_name: values.standard_name,
@@ -109,12 +111,46 @@ const ManageStandard = () => {
       } else {
         setIsModalVisible(false);
         notification.success({
-          message: message || "Successfully Updated :(",
+          message: message || "Successfully Updated",
         });
         getStandardList();
       }
     } catch (err) {
       console.log("Error =", err);
+    }
+  }
+
+  const deleteStandardHandler = async (values) => {
+    if(values === "OK"){
+      const reqBody = {
+        standard_id: dataToDelete._id,
+      };
+      console.log("reqBody", reqBody);
+      try {
+        const { isOk, message } = await networkRequest(
+          "/standard/delete_standard",
+          "POST",
+          reqBody,
+          true
+        );
+        if (!isOk) {
+          notification.error({
+            message: message || "Something went wrong :(",
+          });
+        } else {
+          setIsDeleteModalVisible(false);
+          notification.success({
+            message: message || "Successfully Deleted :)",
+          });
+          getStandardList();
+        }
+      } catch (err) {
+        console.log("Error =", err);
+      }
+    }else{
+      notification.error({
+        message: "Modal response Invalid",
+      });
     }
   }
 
@@ -163,6 +199,7 @@ const ManageStandard = () => {
             visible={isDeleteModalVisible}
             onClose={closeDeleteModal}
             payloadData={dataToDelete}
+            response={deleteStandardHandler}
           />
         )}
       </div>

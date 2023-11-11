@@ -84,8 +84,6 @@ const ManageStudent = () => {
     roll: "",
   });
 
-  // console.log("First =", editData);
-
   const [tableParams, setTableParams] = useState({
     pagination: {
       current: 1,
