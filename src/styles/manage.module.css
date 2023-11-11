@@ -1,5 +1,7 @@
 .filter {
-  margin: 1rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  margin-left: 1rem;
 }
 .filter__items {
   height: 40px;

@@ -260,7 +260,7 @@ const ManageStudent = () => {
     <AppLayout title="Students Details">
       <div className={styles.filter}>
         <Row>
-          <Col span={10} className={styles.filter__items}>
+          <Col span={13} className={styles.filter__items}>
             <Input
               onChange={textIndexSearchHandler}
               placeholder="type something"
