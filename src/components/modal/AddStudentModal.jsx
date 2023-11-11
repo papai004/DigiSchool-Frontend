@@ -9,17 +9,9 @@ import {
   Row,
   notification,
 } from "antd";
+import { useForm } from "antd/es/form/Form";
 import DatePicker from "antd/lib/date-picker";
 import networkRequest from "../../lib/apis/networkRequest";
-
-const prefixSelector = (
-  <Form.Item name="prefix" noStyle>
-    <Select style={{ width: 70 }}>
-      <Select.Option value="91">+91</Select.Option>
-      <Select.Option value="62">+62</Select.Option>
-    </Select>
-  </Form.Item>
-);
 
 const validateMessages = {
   // eslint-disable-next-line no-template-curly-in-string
@@ -36,21 +28,19 @@ const validateMessages = {
   },
 };
 
+const validatePhoneNumber = (rule,value) => {
+  const phoneRegex = /^[0-9]{10}$/;
+  if (value && !phoneRegex.test(value)) {
+    return Promise.reject("Please enter a valid 10-digit phone number");
+  }
+  return Promise.resolve();
+};
+
 const AddStudentModal = ({ open, onCancel, dataToSend }) => {
   const [standardData, setStandardData] = useState([]);
   const [standardValue, setStandardValue] = useState("");
   const [sectionValue, setSectionValue] = useState([]);
-
-  const onFinish = (values) => {
-    dataToSend(values);
-    if (open === false) {
-      document.getElementById("student__add__form").reset();
-    }
-  };
-
-  const standardChangeHandler = (event) => {
-    setStandardValue(event);
-  };
+  const [form] = useForm();
 
   const getStandardList = async () => {
     try {
@@ -72,27 +62,43 @@ const AddStudentModal = ({ open, onCancel, dataToSend }) => {
     }
   };
 
+  const onFinish = (values) => {
+    dataToSend(values);
+    if (open === false) {
+      form.resetFields();
+    }
+  };
+
+  const standardChangeHandler = (event) => {
+    form.setFieldValue("section", "");
+    setStandardValue(event);
+  };  
+
   const getSection = () => {
-    // eslint-disable-next-line array-callback-return
+
     standardData.map((standard, _) => {
       if (standard.standard_name === standardValue) {
         setSectionValue(standard.sections);
       }
+      return null;
     });
   };
+
+  useEffect(() => {
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [form.getFieldsValue()]);
+
+  useEffect(() => {
+    getStandardList();
+  }, []);
 
   useEffect(() => {
     getSection();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [standardValue]);
 
-  useEffect(() => {
-    getStandardList();
-  }, []);
-
   return (
     <Modal
-      width={800}
       open={open}
       onCancel={onCancel}
       footer={null}
@@ -104,11 +110,11 @@ const AddStudentModal = ({ open, onCancel, dataToSend }) => {
         </h2>
       </div>
       <Form
+        form={form}
         id="student__add__form"
         layout="vertical"
         name="nest-messages"
         onFinish={onFinish}
-        initialValues={{ prefix: "91" }}
         validateMessages={validateMessages}
         style={{
           maxHeight: 400,
@@ -146,7 +152,7 @@ const AddStudentModal = ({ open, onCancel, dataToSend }) => {
             </Col>
             <Col span={12} style={{ marginRight: "10px" }}>
               <Form.Item
-                name="gender"
+                name="Gender"
                 label="Gender"
                 rules={[
                   {
@@ -225,6 +231,7 @@ const AddStudentModal = ({ open, onCancel, dataToSend }) => {
                 ]}
               >
                 <Select
+                  name="section"
                   placeholder="Select Section"
                   style={{
                     maxWidth: 400,
@@ -252,9 +259,12 @@ const AddStudentModal = ({ open, onCancel, dataToSend }) => {
                     required: true,
                     message: "Please input mobile number!",
                   },
+                  {
+                    validator: validatePhoneNumber,
+                  },
                 ]}
               >
-                <Input addonBefore={prefixSelector} style={{ width: "100%" }} />
+                <Input style={{ width: "100%" }} />
               </Form.Item>
             </Col>
             <Col span={11}>

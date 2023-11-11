@@ -1,14 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { MdOutlineBloodtype } from "react-icons/md";
-import {
-  Table,
-  Input,
-  Row,
-  Col,
-  Button,
-  notification,
-  Empty,
-} from "antd";
+import { Table, Input, Row, Col, Button, notification, Empty } from "antd";
 import {
   SearchOutlined,
   DownloadOutlined,
@@ -82,8 +74,6 @@ const ManageStudent = () => {
 
   const [data, setData] = useState();
   const [loading, setLoading] = useState(false);
-  // eslint-disable-next-line no-unused-vars
-  const [studentDetails, setStudentDetails] = useState(null);
   const [indexSearchText, setIndexSearchText] = useState("");
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -107,7 +97,7 @@ const ManageStudent = () => {
     const reqBody = {
       name: values.name,
       parentName: values.parentName,
-      gender: values.gender,
+      gender: values.Gender,
       standard: values.standard,
       section: values.section,
       roll: values.roll,
@@ -116,7 +106,6 @@ const ManageStudent = () => {
       bloodGroup: values.bloodGroup,
     };
 
-    console.log("Values for creating =", reqBody);
     try {
       const { isOk, message } = await networkRequest(
         "/student/create_student",
@@ -126,10 +115,10 @@ const ManageStudent = () => {
       );
       if (!isOk) {
         notification.error({
-          message : message || "Something went wrong :(",
+          message: message || "Something went wrong :(",
         });
       } else {
-        setIsAddModalOpen(false)
+        setIsAddModalOpen(false);
         notification.success({
           message,
         });
@@ -155,10 +144,6 @@ const ManageStudent = () => {
       );
       if (isOk) {
         setData(data.studentList);
-        setStudentDetails((prevState) => ({
-          ...prevState,
-          data: data.studentList,
-        }));
         setLoading(false);
         setTableParams((prevState) => ({
           ...prevState,
@@ -170,7 +155,7 @@ const ManageStudent = () => {
       } else {
         setData([]);
         notification.error({
-          message: message || "Something went wrong :("
+          message: message || "Something went wrong :(",
         });
         setLoading(false);
       }
@@ -180,51 +165,21 @@ const ManageStudent = () => {
     }
   };
 
-  const handleTableChange = (pagination) => {
-    setTableParams({
-      pagination,
-    });
-    if (pagination.pageSize !== tableParams.pagination?.pageSize) {
-      setData([]);
-    }
-  };
-
-  const textIndexSearchHandler = (event) => {
-    const searchString = event.target.value;
-    setIndexSearchText(searchString);
-  };
-
-  const searchHandler = (data) => {
-    data.preventDefault();
-  };
-
-  const editHandler = (values) => {
-    setEditData({
-      standard: values.standard,
-      section: values.section,
-      roll: values.roll,
-    });
-    setDataToSendForEdit(values);
-    setIsEditModalOpen(true);
-  };
-
-  const editModalCancleHandler = () => {
-    setIsEditModalOpen(false);
-  };
-
   const editedDataHandler = async (values) => {
     const reqBody = {
       standard: editData.standard,
       section: editData.section,
       roll: editData.roll,
+      nameToUpdate: values.name,
       parentNameToUpdate: values.parentName,
-      mobileNoToUpdate: values.mobileNo,
-      addressToUpdate: values.address,
       standardToUpdate: values.standard,
       sectionToUpdate: values.section,
       rollToUpdate: values.roll,
+      mobileNoToUpdate: values.mobileNo,
+      addressToUpdate: values.address,
+      bloodGroupToUpdate: values.bloodGroup,
+      genderToUpdate: values.Gender,
     };
-    console.log("ReqBody", reqBody);
     try {
       const { isOk, message } = await networkRequest(
         "/student/update_student",
@@ -246,6 +201,46 @@ const ManageStudent = () => {
     } catch (err) {
       console.log("Error =", err);
     }
+  };
+
+  const handleTableChange = (pagination) => {
+    setTableParams({
+      pagination,
+    });
+    if (pagination.pageSize !== tableParams.pagination?.pageSize) {
+      setData([]);
+    }
+  };
+
+  const textIndexSearchHandler = (event) => {
+    const searchString = event.target.value;
+    setIndexSearchText(searchString);
+  };
+
+  const searchHandler = (data) => {
+    data.preventDefault();
+  };
+  
+  const addModalButtonHandler = () => {
+    setIsAddModalOpen(true);
+  }
+
+  const addModalCancleHandler = () => {
+    setIsAddModalOpen(false);
+  }
+
+  const editHandler = (values) => {
+    setEditData({
+      standard: values.standard,
+      section: values.section,
+      roll: values.roll,
+    });
+    setDataToSendForEdit(values);
+    setIsEditModalOpen(true);
+  };
+
+  const editModalCancleHandler = () => {
+    setIsEditModalOpen(false);
   };
 
   useEffect(() => {
@@ -289,19 +284,17 @@ const ManageStudent = () => {
               style={{ width: "80px", marginRight: ".5rem", height: "40px" }}
               type="primary"
               icon={<PlusOutlined />}
-              onClick={() => {
-                setIsAddModalOpen(true);
-              }}
+              onClick={addModalButtonHandler}
             >
               Add
             </Button>
-            <AddStudentModal
-              open={isAddModalOpen}
-              dataToSend={postSutdentDataHandler}
-              onCancel={() => {
-                setIsAddModalOpen(false);
-              }}
-            />
+            {isAddModalOpen && (
+              <AddStudentModal
+                open={isAddModalOpen}
+                dataToSend={postSutdentDataHandler}
+                onCancel={addModalCancleHandler}
+              />
+            )}
           </div>
           {isEditModalOpen && (
             <EditStudentModal

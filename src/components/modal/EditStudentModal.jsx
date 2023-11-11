@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import {
   Modal,
   Button,
@@ -8,9 +9,8 @@ import {
   Select,
   notification,
 } from "antd";
-import { useEffect, useState } from "react";
-import networkRequest from "../../lib/apis/networkRequest";
 import { useForm } from "antd/es/form/Form";
+import networkRequest from "../../lib/apis/networkRequest";
 
 const validateMessages = {
   // eslint-disable-next-line no-template-curly-in-string
@@ -63,13 +63,13 @@ const EditStudentModal = ({ open, dataToSend, onCancel, payloadData }) => {
 
   const onFinish = (values) => {
     payloadData(values);
-    if(open === false){
-        form.resetFields();
+    if (open === false) {
+      form.resetFields();
     }
   };
 
   const standardChangeHandler = async (event) => {
-    form.setFieldValue("section", "")
+    form.setFieldValue("section", "");
     setStandardValue(event);
   };
 
@@ -122,6 +122,19 @@ const EditStudentModal = ({ open, dataToSend, onCancel, payloadData }) => {
           <Row>
             <Col span={12} style={{ marginRight: "10px" }}>
               <Form.Item
+                name="name"
+                label="name"
+                rules={[
+                  {
+                    required: true,
+                  },
+                ]}
+              >
+                <Input placeholder="name" />
+              </Form.Item>
+            </Col>
+            <Col span={11}>
+              <Form.Item
                 name="parentName"
                 label="ParentName"
                 rules={[
@@ -131,29 +144,6 @@ const EditStudentModal = ({ open, dataToSend, onCancel, payloadData }) => {
                 ]}
               >
                 <Input placeholder="Parent name" />
-              </Form.Item>
-            </Col>
-            <Col span={11}>
-              <Form.Item
-                name="roll"
-                label="Roll"
-                rules={[
-                  {
-                    required: true,
-                  },
-                  ({ getFieldValue }) => ({
-                    validator(_, value) {
-                      if (/^\d+$/.test(value) && parseInt(value, 10) > 0) {
-                        return Promise.resolve();
-                      }
-                      return Promise.reject(
-                        "Please enter a valid positive number."
-                      );
-                    },
-                  }),
-                ]}
-              >
-                <Input placeholder="please type roll" />
               </Form.Item>
             </Col>
             <Col span={12} style={{ marginRight: "10px" }}>
@@ -218,6 +208,51 @@ const EditStudentModal = ({ open, dataToSend, onCancel, payloadData }) => {
             </Col>
             <Col span={12} style={{ marginRight: "10px" }}>
               <Form.Item
+                name="roll"
+                label="Roll"
+                rules={[
+                  {
+                    required: true,
+                  },
+                  ({ getFieldValue }) => ({
+                    validator(_, value) {
+                      if (/^\d+$/.test(value) && parseInt(value, 10) > 0) {
+                        return Promise.resolve();
+                      }
+                      return Promise.reject(
+                        "Please enter a valid positive number."
+                      );
+                    },
+                  }),
+                ]}
+              >
+                <Input placeholder="please type roll" />
+              </Form.Item>
+            </Col>
+            <Col span={11}>
+              <Form.Item
+                name="bloodGroup"
+                label="bloodGroup"
+                rules={[
+                  {
+                    required: true,
+                  },
+                ]}
+              >
+                <Select placeholder="Select blood group">
+                  <Select.Option value="A+">A+</Select.Option>
+                  <Select.Option value="O+">O+</Select.Option>
+                  <Select.Option value="B+">B+</Select.Option>
+                  <Select.Option value="AB+">AB+</Select.Option>
+                  <Select.Option value="A-">A-</Select.Option>
+                  <Select.Option value="O-">O-</Select.Option>
+                  <Select.Option value="B-">B-</Select.Option>
+                  <Select.Option value="AB-">AB-</Select.Option>
+                </Select>
+              </Form.Item>
+            </Col>
+            <Col span={12} style={{ marginRight: "10px" }}>
+              <Form.Item
                 name="mobileNo"
                 label="Mobile Number"
                 rules={[
@@ -244,6 +279,23 @@ const EditStudentModal = ({ open, dataToSend, onCancel, payloadData }) => {
                 ]}
               >
                 <Input placeholder="address" />
+              </Form.Item>
+            </Col>
+            <Col span={12} style={{ marginRight: "10px" }}>
+              <Form.Item
+                name="Gender"
+                label="gender"
+                rules={[
+                  {
+                    required: true,
+                    message: "Please select gender!",
+                  },
+                ]}
+              >
+                <Select placeholder="Select gender">
+                  <Select.Option value="male">Male</Select.Option>
+                  <Select.Option value="female">Female</Select.Option>
+                </Select>
               </Form.Item>
             </Col>
           </Row>
