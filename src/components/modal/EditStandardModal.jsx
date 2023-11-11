@@ -2,14 +2,15 @@ import { Modal, Form, Input, Button, notification } from "antd";
 import { useForm } from "antd/es/form/Form";
 import { PlusOutlined, MinusCircleOutlined } from "@ant-design/icons";
 import { useEffect, useState } from "react";
-import styles from "./standardAddModal.module.css";
+import styles from "./addStandardModal.module.css";
 
-const StandardEditModal = ({ visible, onClose, payloadData }) => {
+const StandardEditModal = ({ visible, onClose, payloadData, modalDataToUpadte }) => {
   const [data, setData] = useState(payloadData);
   const [form] = useForm();
 
   useEffect(() => {
     setData({
+      standard_id: payloadData?._id,
       standard_name: payloadData?.standard_name,
       sections: payloadData?.sections,
     });
@@ -40,7 +41,10 @@ const StandardEditModal = ({ visible, onClose, payloadData }) => {
         message: "Please fill the form correctly!",
       });
     }else{
-      console.log("data =", data);
+      modalDataToUpadte(data);
+      if(visible === false){
+        form.resetFields();
+      }
     }
   };
 

@@ -4,8 +4,8 @@ import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import AppLayout from "../layout/AppLayout";
 import AddStandardModal from "../components/modal/AddStandardModal";
 import networkRequest from "../lib/apis/networkRequest";
-import StandardEditModal from "../components/modal/StandardEditModal";
-import StandardDeleteModal from "../components/modal/StandardDeleteModal";
+import StandardEditModal from "../components/modal/EditStandardModal";
+import StandardDeleteModal from "../components/modal/DeleteStandardModal";
 
 const ManageStandard = () => {
   const color = [
@@ -85,6 +85,39 @@ const ManageStandard = () => {
     }
   };
 
+  const editStandardHandler = async (values) => {
+    console.log("Got values", values);
+    const reqBody = {
+      standard_id: values.standard_id,
+      standard_name: values.standard_name,
+      sections: values.sections.map((section, _) => ({
+        label: section.label,
+        value: section.value,
+      })),
+    };
+    try {
+      const { isOk, message } = await networkRequest(
+        "/standard/update_standard",
+        "POST",
+        reqBody,
+        true
+      );
+      if (!isOk) {
+        notification.error({
+          message: message || "Something went wrong :(",
+        });
+      } else {
+        setIsModalVisible(false);
+        notification.success({
+          message: message || "Successfully Updated :(",
+        });
+        getStandardList();
+      }
+    } catch (err) {
+      console.log("Error =", err);
+    }
+  }
+
   const editHandler = (values) => {
     setIsModalVisible(true);
     setDataToUpdate(values);
@@ -122,6 +155,7 @@ const ManageStandard = () => {
             visible={isModalVisible}
             onClose={closeEditModal}
             payloadData={dataToUpdate}
+            modalDataToUpadte={editStandardHandler}
           />
         )}
         {isDeleteModalVisible && (

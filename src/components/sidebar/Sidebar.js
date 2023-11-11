@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Menu, Layout } from "antd";
 import { MdManageAccounts } from "react-icons/md";
+import { SiGoogleclassroom } from "react-icons/si";
 import {
   DashboardOutlined,
   SettingOutlined,
@@ -23,10 +24,8 @@ function getItem(label, key, icon, children, type) {
 
 const items = [
   getItem("Dashboard", "/dashboard", <DashboardOutlined />),
-  getItem("Manage School", "#", <MdManageAccounts />, [
-    getItem("Student", "/manage_student"),
-    getItem("Standard", "/manage_standard"),
-  ]),
+  getItem("Manage Student", "/manage_student", <MdManageAccounts />),
+  getItem("Manage Standard", "/manage_standard", <SiGoogleclassroom />),
 ];
 const bottomItems = [
   getItem("Settings", "/settings", <SettingOutlined />),
@@ -41,13 +40,12 @@ function Sidebar() {
     if (selectedKeys !== location.pathname) setSelectedKeys(location.pathname);
   }, [location.pathname, selectedKeys]);
 
-  const handleMenuChange = async(newPath) => {
+  const handleMenuChange = async (newPath) => {
     setSelectedKeys(newPath);
     navigate(newPath);
-    if(newPath === '/'){
+    if (newPath === "/") {
       localStorage.removeItem("accessToken");
       localStorage.removeItem("refreshToken");
-      localStorage.removeItem("email");
     }
   };
 

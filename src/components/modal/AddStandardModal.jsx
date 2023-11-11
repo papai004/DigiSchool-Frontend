@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
 import { Button, Form, Input, Modal } from "antd";
-import styles from "./standardAddModal.module.css";
+import styles from "./addStandardModal.module.css";
 
 const formItemLayout = {
   labelCol: {
