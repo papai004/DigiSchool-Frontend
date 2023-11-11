@@ -75,7 +75,6 @@ const AddStudentModal = ({ open, onCancel, dataToSend }) => {
   };  
 
   const getSection = () => {
-
     standardData.map((standard, _) => {
       if (standard.standard_name === standardValue) {
         setSectionValue(standard.sections);
