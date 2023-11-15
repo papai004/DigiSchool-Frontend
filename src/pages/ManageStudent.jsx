@@ -13,6 +13,7 @@ import StudentFilter from "../components/StudentFilter";
 import networkRequest from "../lib/apis/networkRequest";
 import AddStudentModal from "../components/modal/AddStudentModal";
 import EditStudentModal from "../components/modal/EditStudentModal";
+import DownloadDataModal from "../components/modal/DownloadDataModal";
 
 const ManageStudent = () => {
   const columns = [
@@ -77,6 +78,7 @@ const ManageStudent = () => {
   const [indexSearchText, setIndexSearchText] = useState("");
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isDownloadModalOpen, setIsDownloadModalOpen] = useState(false);
   const [dataToSendForEdit, setDataToSendForEdit] = useState([]);
   const [editData, setEditData] = useState({
     standard: "",
@@ -218,14 +220,14 @@ const ManageStudent = () => {
   const searchHandler = (data) => {
     data.preventDefault();
   };
-  
+
   const addModalButtonHandler = () => {
     setIsAddModalOpen(true);
-  }
+  };
 
   const addModalCancleHandler = () => {
     setIsAddModalOpen(false);
-  }
+  };
 
   const editHandler = (values) => {
     setEditData({
@@ -302,7 +304,16 @@ const ManageStudent = () => {
               payloadData={editedDataHandler}
             />
           )}
-          <Button type="primary" className={styles.filter__items}>
+          {isDownloadModalOpen && (
+            <DownloadDataModal onClose={() => setIsDownloadModalOpen(false)} />
+          )}
+          <Button
+            onClick={() => {
+              setIsDownloadModalOpen(true);
+            }}
+            type="primary"
+            className={styles.filter__items}
+          >
             <DownloadOutlined />
           </Button>
         </Row>
