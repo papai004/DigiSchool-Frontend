@@ -24,11 +24,15 @@ function getItem(label, key, icon, children, type) {
 
 const items = [
   getItem("Dashboard", "/dashboard", <DashboardOutlined />),
+  
   getItem("Manage Student", "/manage_student", <MdManageAccounts />),
+
   getItem("Manage Standard", "/manage_standard", <SiGoogleclassroom />),
 ];
+
 const bottomItems = [
   getItem("Settings", "/settings", <SettingOutlined />),
+  
   getItem("Logout", "/", <LogoutOutlined />),
 ];
 
@@ -37,12 +41,16 @@ function Sidebar() {
   const [selectedKeys, setSelectedKeys] = useState();
 
   useEffect(() => {
-    if (selectedKeys !== location.pathname) setSelectedKeys(location.pathname);
+    if (selectedKeys !== location.pathname) {
+      setSelectedKeys(location.pathname);
+    }
   }, [location.pathname, selectedKeys]);
 
   const handleMenuChange = async (newPath) => {
     setSelectedKeys(newPath);
+
     navigate(newPath);
+
     if (newPath === "/") {
       localStorage.removeItem("accessToken");
       localStorage.removeItem("refreshToken");
@@ -63,15 +71,15 @@ function Sidebar() {
         <h2>DigiSchool</h2>
       </div>
       <div className={styles.sidebar__items}>
-          <Menu
-            theme="dark"
-            mode="inline"
-            onClick={(item) => {
-              handleMenuChange(item.key);
-            }}
-            selectedKeys={[selectedKeys]}
-            items={items}
-          />
+        <Menu
+          theme="dark"
+          mode="inline"
+          onClick={(item) => {
+            handleMenuChange(item.key);
+          }}
+          selectedKeys={[selectedKeys]}
+          items={items}
+        />
         <div>
           <Menu
             style={{ marginBottom: "auto" }}
