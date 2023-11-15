@@ -1,8 +1,7 @@
 import React from "react";
-import Header from "../components/navs/Header.js";
+import Header from "../components/navs/Header.jsx";
 import Sidebar from "../components/sidebar/Sidebar.js";
 import { Layout, theme } from "antd";
-
 
 const AppLayout = (props) => {
   const {
@@ -17,7 +16,6 @@ const AppLayout = (props) => {
             padding: 0,
             background: colorBgContainer,
           }}
-          title="Dashboard"
         />
         {props.children}
       </Layout>
