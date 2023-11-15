@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, Form, Input, notification } from "antd";
 import ContactImg from "../assets/images/contact.svg";
@@ -7,6 +7,14 @@ import networkRequest from "../lib/apis/networkRequest";
 
 const Login = () => {
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const accessToken = localStorage.getItem("accessToken");
+
+    if (accessToken) {
+      navigate("/dashboard");
+    }
+  }, []);
 
   const onFinish = async (values) => {
     const reqBody = {
@@ -34,7 +42,7 @@ const Login = () => {
         });
       }
     } catch (err) {
-      console.log("Error =",err);
+      console.log("Error =", err);
     }
   };
 
