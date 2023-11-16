@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, Form, Input, notification } from "antd";
 import ContactImg from "../assets/images/contact.svg";
@@ -7,13 +7,23 @@ import networkRequest from "../lib/apis/networkRequest";
 
 const Login = () => {
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    const accessToken = localStorage.getItem("accessToken");
+
+    if (accessToken) {
+      navigate("/dashboard");
+    }
+    // eslint-disable-next-line
+  }, []);
 
   const onFinish = async (values) => {
     const reqBody = {
       email: values?.email,
       password: values?.password,
     };
-
+    setIsLoading(true);
     try {
       const { isOk, message, data } = await networkRequest(
         "/auth/login",
@@ -27,14 +37,17 @@ const Login = () => {
         notification.success({
           message,
         });
+        setIsLoading(false);
         navigate("/dashboard");
       } else {
         notification.error({
           message: message || "something went wrong :(",
         });
+        setIsLoading(false);
       }
     } catch (err) {
-      console.log("Error =",err);
+      console.log("Error =", err);
+      setIsLoading(false);
     }
   };
 
@@ -112,7 +125,7 @@ const Login = () => {
                 span: 16,
               }}
             >
-              <Button type="primary" htmlType="submit">
+              <Button loading={isLoading} type="primary" htmlType="submit">
                 Login
               </Button>
             </Form.Item>
