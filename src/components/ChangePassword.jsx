@@ -41,7 +41,7 @@ const ChangePassword = () => {
         form.resetFields();
       } else {
         notification.error({
-          message: message || "Something went wrong :(",
+          message: message || "Something went wrong",
         });
       }
     } catch (err) {

@@ -14,6 +14,7 @@ const Login = () => {
     if (accessToken) {
       navigate("/dashboard");
     }
+    // eslint-disable-next-line
   }, []);
 
   const onFinish = async (values) => {
