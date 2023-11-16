@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button, Form, Input, notification } from "antd";
 import StyledCard from "./card/StyledCard";
 import { useForm } from "antd/es/form/Form";
@@ -18,15 +18,15 @@ const validatePassword = (rule, value) => {
 
 const ChangePassword = () => {
   const [form] = useForm();
+  const [isLoading, setIsLoading] = useState(false);
 
-  const onFinish = async(values) => {
-
+  const onFinish = async (values) => {
     const reqBody = {
       old_Password: values.old_Password,
       new_Password: values.new_Password,
       confirm_Password: values.confirm_Password,
     };
-
+    setIsLoading(true);
     try {
       const { isOk, message } = await networkRequest(
         "/school/change_password",
@@ -39,16 +39,19 @@ const ChangePassword = () => {
           message: message || "Password updated Successfully",
         });
         form.resetFields();
+        setIsLoading(false);
       } else {
         notification.error({
           message: message || "Something went wrong",
         });
+        setIsLoading(false);
       }
     } catch (err) {
       notification.error({
         message: "Something went wrong",
       });
       console.log("Error =", err);
+      setIsLoading(false);
     }
   };
 
@@ -63,7 +66,7 @@ const ChangePassword = () => {
         wrapperCol={{
           span: 16,
         }}
-        style={{marginTop: "2rem"}}
+        style={{ marginTop: "2rem" }}
         onFinish={onFinish}
         autoComplete="off"
       >
@@ -140,7 +143,7 @@ const ChangePassword = () => {
             span: 16,
           }}
         >
-          <Button type="primary" htmlType="submit">
+          <Button loading={isLoading} type="primary" htmlType="submit">
             Reset Password
           </Button>
         </Form.Item>
