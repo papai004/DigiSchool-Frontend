@@ -1,7 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap");
 
 .sidebar {
-  height: 100vh;
+ min-height: 100vh;
 }
 .heading {
   height: 40px;

@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import styles from "./sidebar.module.css";
-import { GrActions } from "react-icons/gr";
+import { Menu, Layout } from "antd";
 import { MdManageAccounts } from "react-icons/md";
+import { SiGoogleclassroom } from "react-icons/si";
 import {
-  UserAddOutlined,
   DashboardOutlined,
   SettingOutlined,
+  LogoutOutlined,
 } from "@ant-design/icons";
-import { Menu, Layout } from "antd";
+import styles from "./sidebar.module.css";
 
 const { Sider } = Layout;
 
@@ -23,13 +23,17 @@ function getItem(label, key, icon, children, type) {
 }
 
 const items = [
-  getItem("Dashboard", "/", <DashboardOutlined />),
-  getItem("Manage", "/manage", <MdManageAccounts />),
-  getItem("Actions", "/actions", <GrActions className={styles.action__logo} />),
+  getItem("Dashboard", "/dashboard", <DashboardOutlined />),
+  
+  getItem("Manage Student", "/manage_student", <MdManageAccounts />),
+
+  getItem("Manage Standard", "/manage_standard", <SiGoogleclassroom />),
 ];
+
 const bottomItems = [
   getItem("Settings", "/settings", <SettingOutlined />),
-  getItem("Logout", "/logout", <UserAddOutlined />),
+  
+  getItem("Logout", "/", <LogoutOutlined />),
 ];
 
 function Sidebar() {
@@ -37,13 +41,20 @@ function Sidebar() {
   const [selectedKeys, setSelectedKeys] = useState();
 
   useEffect(() => {
-    if (selectedKeys !== location.pathname) setSelectedKeys(location.pathname);
+    if (selectedKeys !== location.pathname) {
+      setSelectedKeys(location.pathname);
+    }
   }, [location.pathname, selectedKeys]);
 
-  const handleMenuChange = (newPath) => {
-    console.log("New Path - ", newPath);
+  const handleMenuChange = async (newPath) => {
     setSelectedKeys(newPath);
+
     navigate(newPath);
+
+    if (newPath === "/") {
+      localStorage.removeItem("accessToken");
+      localStorage.removeItem("refreshToken");
+    }
   };
 
   const navigate = useNavigate();
@@ -53,41 +64,35 @@ function Sidebar() {
       className={styles.sidebar}
       breakpoint="lg"
       collapsedWidth="0"
-      onBreakpoint={(broken) => {
-        console.log(broken);
-      }}
-      onCollapse={(collapsed, type) => {
-        console.log(collapsed, type);
-      }}
+      onBreakpoint={(broken) => {}}
+      onCollapse={(collapsed, type) => {}}
     >
       <div className={styles.heading}>
         <h2>DigiSchool</h2>
       </div>
       <div className={styles.sidebar__items}>
-    <React.Fragment>
-      <Menu
-        theme="dark"
-        mode="inline"
-        onClick={(item) => {
-          handleMenuChange(item.key);
-        }}
-        selectedKeys={[selectedKeys]}
-        items={items}
-      />
-    </React.Fragment>
-    <div>
-      <Menu
-        style={{ marginBottom: "auto" }}
-        theme="dark"
-        mode="inline"
-        onClick={(item) => {
-          handleMenuChange(item.key);
-        }}
-        selectedKeys={[selectedKeys]}
-        items={bottomItems} 
-        selectable={false}
-      />
-      </div>
+        <Menu
+          theme="dark"
+          mode="inline"
+          onClick={(item) => {
+            handleMenuChange(item.key);
+          }}
+          selectedKeys={[selectedKeys]}
+          items={items}
+        />
+        <div>
+          <Menu
+            style={{ marginBottom: "auto" }}
+            theme="dark"
+            mode="inline"
+            onClick={(item) => {
+              handleMenuChange(item.key);
+            }}
+            selectedKeys={[selectedKeys]}
+            items={bottomItems}
+            selectable={false}
+          />
+        </div>
       </div>
     </Sider>
   );
