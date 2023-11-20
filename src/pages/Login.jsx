@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button, Form, Input, notification } from "antd";
 import ContactImg from "../assets/images/contact.svg";
 import "../styles/login.css";
@@ -8,15 +8,6 @@ import networkRequest from "../lib/apis/networkRequest";
 const Login = () => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
-
-  useEffect(() => {
-    const accessToken = localStorage.getItem("accessToken");
-
-    if (accessToken) {
-      navigate("/dashboard");
-    }
-    // eslint-disable-next-line
-  }, []);
 
   const onFinish = async (values) => {
     const reqBody = {
@@ -50,10 +41,20 @@ const Login = () => {
       setIsLoading(false);
     }
   };
+  
+  const onClick = (e) => {
+    e.preventDefault();
+    navigate("/sendEmail");
+  }
 
-  const onFinishFailed = (errorInfo) => {
-    console.log("Failed:", errorInfo);
-  };
+  useEffect(() => {
+    const accessToken = localStorage.getItem("accessToken");
+
+    if (accessToken) {
+      navigate("/dashboard");
+    }
+    // eslint-disable-next-line
+  }, []);
 
   return (
     <React.Fragment>
@@ -78,7 +79,6 @@ const Login = () => {
               remember: true,
             }}
             onFinish={onFinish}
-            onFinishFailed={onFinishFailed}
             autoComplete="off"
           >
             <h2 style={{ textAlign: "center" }}> Login to your account</h2>
@@ -116,7 +116,9 @@ const Login = () => {
                 span: 16,
               }}
             >
-              <>forgot password?</>
+              <Link style={{ color: "red" }} onClick={onClick}>
+                forgot password?
+              </Link>
             </Form.Item>
 
             <Form.Item

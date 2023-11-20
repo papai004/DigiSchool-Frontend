@@ -1,5 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import Login from "./pages/Login";
+import SendEmail from "./pages/SendEmail";
+import ResetPassword from "./pages/ResetPassword";
 import Dashboard from "./pages/Dashboard";
 import ManageStudent from "./pages/ManageStudent";
 import ManageStandard from "./pages/ManageStandard";
@@ -11,6 +13,8 @@ const App = () => {
     <div className="App">
       <Routes>
         <Route path="/" element={<Login />}></Route>
+        <Route path="/sendEmail" element={<SendEmail />}></Route>
+        <Route path="/reset_password/:id/:token" element={<ResetPassword />}></Route>
         <Route
           path="/dashboard"
           element={

@@ -1,8 +1,10 @@
-import React, { useState } from "react";
-import { Button, Form, Input, notification } from "antd";
-import StyledCard from "./card/StyledCard";
-import { useForm } from "antd/es/form/Form";
-import networkRequest from "../lib/apis/networkRequest";
+import { useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { Button, Input, Form, notification } from 'antd';
+import StyledCard from '../components/card/StyledCard';
+import networkRequest from '../lib/apis/networkRequest';
+import { useForm } from 'antd/es/form/Form';
+
 
 const validatePassword = (rule, value) => {
   if (value.length < 6) {
@@ -17,47 +19,57 @@ const validatePassword = (rule, value) => {
 };
 
 
-const ChangePassword = () => {
-  const [form] = useForm();
-  const [isLoading, setIsLoading] = useState(false);
+const ResetPassword = () => {
 
-  const onFinish = async (values) => {
-    const reqBody = {
-      old_Password: values.old_Password,
-      new_Password: values.new_Password,
-      confirm_Password: values.confirm_Password,
-    };
-    setIsLoading(true);
-    try {
-      const { isOk, message } = await networkRequest(
-        "/school/change_password",
-        "POST",
-        reqBody,
-        true
-      );
-      if (isOk) {
-        notification.success({
-          message: message || "Password updated Successfully",
-        });
-        form.resetFields();
-        setIsLoading(false);
-      } else {
-        notification.error({
-          message: message || "Something went wrong",
-        });
+  const [isLoading, setIsLoading] = useState(false);
+  const { id, token } = useParams();
+  const navigate = useNavigate();
+  const [form] = useForm();
+
+    const onFinish = async(values) => {
+
+      const reqBody = {
+        id: id,
+        token: token,
+        newPassword: values?.new_Password,
+        confirmPassword: values?.confirm_Password,
+      };
+      setIsLoading(true);
+      try {
+        const { isOk, message } = await networkRequest(
+          "/forgotPassword/resetPassword",
+          "POST",
+          reqBody
+        );
+  
+        if (isOk) {
+          notification.success({
+            message,
+          });
+          setIsLoading(false);
+          form.resetFields();
+          navigate("/");
+        } else {
+          notification.error({
+            message: message || "something went wrong :(",
+          });
+          setIsLoading(false);
+        }
+      } catch (err) {
+        console.log("Error =", err);
         setIsLoading(false);
       }
-    } catch (err) {
-      notification.error({
-        message: "Something went wrong",
-      });
-      console.log("Error =", err);
-      setIsLoading(false);
     }
-  };
 
   return (
-    <StyledCard>
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "100vh",
+      }}
+    >
       <Form
         form={form}
         name="basic"
@@ -67,46 +79,25 @@ const ChangePassword = () => {
         wrapperCol={{
           span: 16,
         }}
-        style={{ marginTop: "2rem" }}
+        style={{
+          width: 600,
+        }}
         onFinish={onFinish}
         autoComplete="off"
       >
-        {/* <div style={{textAlign: "center"}}><h3 color="green">Reset Password</h3></div> */}
-
-        <Form.Item
-          label="Old password"
-          name="old_Password"
-          rules={[
-            {
-              required: true,
-              message: "Please input your old password!",
-            },
-          ]}
-        >
-          <Input.Password />
-        </Form.Item>
+        <StyledCard>
+        <h2 style={{ textAlign: "center" }}>
+            <u>Reset your Organisation's password</u>
+          </h2>
         <Form.Item
           name="new_Password"
           label="New password"
-          dependencies={["old_Password"]}
           hasFeedback
           rules={[
             {
               required: true,
               message: "Please set your password!",
             },
-            ({ getFieldValue }) => ({
-              validator(_, value) {
-                if (!value || getFieldValue("old_Password") !== value) {
-                  return Promise.resolve();
-                }
-                return Promise.reject(
-                  new Error(
-                    "The new password that you entered is same as before!"
-                  )
-                );
-              },
-            }),
             {
               validator: validatePassword,
             },
@@ -148,9 +139,10 @@ const ChangePassword = () => {
             Reset Password
           </Button>
         </Form.Item>
+        </StyledCard>
       </Form>
-    </StyledCard>
-  );
-};
+    </div>
+  )
+}
 
-export default ChangePassword;
+export default ResetPassword;
