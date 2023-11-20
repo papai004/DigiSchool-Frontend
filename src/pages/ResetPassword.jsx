@@ -22,14 +22,13 @@ const validatePassword = (rule, value) => {
 const ResetPassword = () => {
 
   const [isLoading, setIsLoading] = useState(false);
-  const { id, token } = useParams();
+  const { token } = useParams();
   const navigate = useNavigate();
   const [form] = useForm();
 
     const onFinish = async(values) => {
 
       const reqBody = {
-        id: id,
         token: token,
         newPassword: values?.new_Password,
         confirmPassword: values?.confirm_Password,
