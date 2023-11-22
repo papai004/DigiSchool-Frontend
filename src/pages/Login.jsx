@@ -4,8 +4,10 @@ import { Button, Form, Input, notification } from "antd";
 import ContactImg from "../assets/images/contact.svg";
 import "../styles/login.css";
 import networkRequest from "../lib/apis/networkRequest";
+import ForgotPasswordModal from "../components/modal/ForgotPasswordModal";
 
 const Login = () => {
+  const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -41,10 +43,14 @@ const Login = () => {
       setIsLoading(false);
     }
   };
-  
+
   const onClick = (e) => {
     e.preventDefault();
-    navigate("/sendEmail");
+    setIsOpen(true);
+  };
+
+  const onCancel = () => {
+    setIsOpen(false);
   }
 
   useEffect(() => {
@@ -65,7 +71,7 @@ const Login = () => {
         ></div>
         <div className="rightSide">
           <Form
-            name="basic"
+            name="LoginForm"
             labelCol={{
               span: 8,
             }}
@@ -108,7 +114,7 @@ const Login = () => {
             >
               <Input.Password />
             </Form.Item>
-
+            {isOpen === true ? <ForgotPasswordModal open={isOpen} onCancel={onCancel} /> : null}
             <Form.Item
               name="forgot password"
               wrapperCol={{
@@ -116,7 +122,7 @@ const Login = () => {
                 span: 16,
               }}
             >
-              <Link style={{ color: "red" }} onClick={onClick}>
+              <Link style={{ color: "blue" }} onClick={onClick}>
                 forgot password?
               </Link>
             </Form.Item>

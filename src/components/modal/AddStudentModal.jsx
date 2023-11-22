@@ -115,7 +115,7 @@ const AddStudentModal = ({ open, onCancel, dataToSend }) => {
         form={form}
         id="student__add__form"
         layout="vertical"
-        name="nest-messages"
+        name="AddStudentForm"
         onFinish={onFinish}
         validateMessages={validateMessages}
         style={{

@@ -71,7 +71,7 @@ const ResetPassword = () => {
     >
       <Form
         form={form}
-        name="basic"
+        name="ResetPasswordForm"
         labelCol={{
           span: 6,
         }}
