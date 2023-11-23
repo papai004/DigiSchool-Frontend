@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button, Form, Input, notification } from "antd";
-import ContactImg from "../assets/images/contact.svg";
-import "../styles/login.css";
 import networkRequest from "../lib/apis/networkRequest";
-import ForgotPasswordModal from "../components/modal/ForgotPasswordModal";
+import ForgotPasswordModal from "./modal/ForgotPasswordModal";
 
 const Login = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -65,21 +63,19 @@ const Login = () => {
   return (
     <React.Fragment>
       <div className="login">
-        <div
-          className="leftSide"
-          style={{ backgroundImage: `url(${ContactImg})` }}
-        ></div>
-        <div className="rightSide">
+        <div>
           <Form
+            id="LoginForm"
             name="LoginForm"
             labelCol={{
-              span: 8,
+              span: 4,
             }}
             wrapperCol={{
-              span: 16,
+              span: 18,
             }}
             style={{
               maxWidth: 600,
+              height: "320px"
             }}
             initialValues={{
               remember: true,
@@ -87,7 +83,7 @@ const Login = () => {
             onFinish={onFinish}
             autoComplete="off"
           >
-            <h2 style={{ textAlign: "center" }}> Login to your account</h2>
+            <h2 style={{ textAlign: "center" }}> Welcome back, Please login</h2>
             <Form.Item
               label="Email"
               name="email"
@@ -129,8 +125,8 @@ const Login = () => {
 
             <Form.Item
               wrapperCol={{
-                offset: 8,
-                span: 16,
+                offset: 10,
+                span: 14,
               }}
             >
               <Button loading={isLoading} type="primary" htmlType="submit">

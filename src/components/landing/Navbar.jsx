@@ -1,9 +1,28 @@
-// Navbar.js
-import React from "react";
+import React, { useState } from "react";
 import { Menu } from "antd";
 import { Link } from "react-router-dom";
+import AuthModal from "../modal/AuthModal";
 
 const Navbar = () => {
+
+  const [isOpen, setIsOpen] = useState(false);
+  const [loginValue, setLoginValue] = useState("");
+
+  const signupHandler = (e) => {
+    e.preventDefault();
+    setIsOpen(true);
+    setLoginValue("signup");
+  }
+
+  const loginHandler = (e) => {
+    e.preventDefault();
+    setIsOpen(true);
+    setLoginValue("login");
+  }
+
+  const onCancel = () => {
+    setIsOpen(false);
+  }
   return (
     <Menu mode="horizontal" style={{ height: "10vh", zIndex: "1" }}>
       <Menu.Item key="name">
@@ -18,11 +37,12 @@ const Navbar = () => {
       </Menu.Item>
       </div>
       <div style={{marginTop: "auto",marginBottom: "auto", marginLeft: "auto"}}>
+      {isOpen === true ? <AuthModal open={isOpen} onCancel={onCancel} loginValue={loginValue} /> : null}
       <Menu.Item key="login">
-        <Link to="/login">Login</Link>
+        <Link onClick={loginHandler}>Login</Link>
       </Menu.Item>
       <Menu.Item key="signup" style={{marginLeft: "0.5rem"}}>
-        <Link to="/signup">Signup</Link>
+        <Link onClick={signupHandler}>Signup</Link>
       </Menu.Item>
       </div>
     </Menu>

@@ -1,6 +1,5 @@
 import { Routes, Route } from "react-router-dom";
 import HomePage from "./pages/HomePage";
-import Login from "./pages/Login";
 import ResetPassword from "./pages/ResetPassword";
 import Dashboard from "./pages/Dashboard";
 import ManageStudent from "./pages/ManageStudent";
@@ -14,7 +13,6 @@ const App = () => {
     <div className="App">
       <Routes>
         <Route path="/" element={<HomePage />}></Route>
-        <Route path="/login" element={<Login />}></Route>
         <Route path="/reset_password/:token" element={<ResetPassword />}></Route>
         <Route
           path="/dashboard"

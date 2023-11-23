@@ -3,7 +3,7 @@ import Avatar1 from "../../assets/images/avatar1.svg"
 import Avatar2 from "../../assets/images/avatar2.svg"
 import Avatar3 from "../../assets/images/avatar3.svg"
 import Avatar4 from "../../assets/images/avatar4.svg"
-import  "./styles/testemonials.css";
+import  "./styles/testimonials.css";
 
 const cardItems = [
   {
@@ -81,6 +81,7 @@ const Testemonials = () => {
 
   return (
     <div className="container" style={{backgroundColor: "#f5ffe3", height: "50vh"}}>
+      <h1 style={{textAlign: "center"}}>Testimonials</h1>
       <ul className="card-carousel">
         {cardItems.map((card, index) => (
           <li

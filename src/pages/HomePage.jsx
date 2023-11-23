@@ -1,10 +1,10 @@
 import { Row, Col } from "antd";
 import Home1 from "../assets/images/home1.svg";
 import Home2 from "../assets/images/home2.svg";
-import Navbar from "../components/navs/Navbar";
+import Navbar from "../components/landing/Navbar";
 import Feature from "../components/landing/Features";
 import Footer from "../components/landing/Footer";
-import Testimonials from "../components/landing/Testemonials";
+import Testimonials from "../components/landing/Testimonials";
 
 const Landing = () => {
   return (

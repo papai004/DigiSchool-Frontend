@@ -12,7 +12,7 @@ const PrivateRoute = (props) => {
       notification.error({
         message: "Please log in to access"
       });
-      navigate("/login");
+      navigate("/");
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
