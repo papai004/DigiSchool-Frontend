@@ -5,6 +5,7 @@ import Navbar from "../components/landing/Navbar";
 import Feature from "../components/landing/Features";
 import Footer from "../components/landing/Footer";
 import Testimonials from "../components/landing/Testimonials";
+import Work from "../components/landing/Works";
 
 const Landing = () => {
   return (
@@ -16,6 +17,7 @@ const Landing = () => {
         <Col span={8} style={{ backgroundImage: `url(${Home2})`, height: "70vh"}} />
       </Row>
       <Feature />
+      <Work />
       <Testimonials />
       <Footer />
     </>
