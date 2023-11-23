@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, Form, Input, notification } from "antd";
 import networkRequest from "../lib/apis/networkRequest";
+import { useForm } from "antd/es/form/Form";
 
 const validatePassword = (rule, value) => {
   if (value.length < 6) {
@@ -22,17 +23,19 @@ const validatePassword = (rule, value) => {
 const Login = () => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
+  const [form] = useForm();
 
   const onFinish = async (values) => {
     const reqBody = {
       email: values?.email,
       schoolName: values?.schoolName,
       password: values?.password,
+      confirm_Password: values?.confirm_Password,
     };
     setIsLoading(true);
     try {
       const { isOk, message } = await networkRequest(
-        "/auth/signup",
+        "/school/create_school",
         "POST",
         reqBody
       );
@@ -42,10 +45,11 @@ const Login = () => {
           message,
         });
         setIsLoading(false);
+        form.resetFields();
         navigate("/");
       } else {
         notification.error({
-          message: message || "something went wrong :(",
+          message: message || "something went wrong",
         });
         setIsLoading(false);
       }
@@ -67,6 +71,7 @@ const Login = () => {
   return (
     <React.Fragment>
       <Form
+      form={form}
       labelCol={{
         span: 7,
       }}

@@ -1,5 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import HomePage from "./pages/HomePage";
+import VerifySchool from "./pages/VerifySchool";
 import ResetPassword from "./pages/ResetPassword";
 import Dashboard from "./pages/Dashboard";
 import ManageStudent from "./pages/ManageStudent";
@@ -14,6 +15,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<HomePage />}></Route>
         <Route path="/reset_password/:token" element={<ResetPassword />}></Route>
+        <Route path="/verify_school_email/:token" element={<VerifySchool />}></Route>
         <Route
           path="/dashboard"
           element={
