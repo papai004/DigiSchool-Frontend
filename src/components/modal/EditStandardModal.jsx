@@ -2,7 +2,7 @@ import { Modal, Form, Input, Button, notification } from "antd";
 import { useForm } from "antd/es/form/Form";
 import { PlusOutlined, MinusCircleOutlined } from "@ant-design/icons";
 import { useEffect, useState } from "react";
-import styles from "./addStandardModal.module.css";
+import styles from "../../styles/addStandardModal.module.css";
 
 const StandardEditModal = ({ visible, onClose, payloadData, modalDataToUpadte }) => {
   const [data, setData] = useState(payloadData);
@@ -110,7 +110,7 @@ const StandardEditModal = ({ visible, onClose, payloadData, modalDataToUpadte })
     >
       <Form
         form={form}
-        name="basic"
+        name="EditStandardForm"
         labelCol={{
           span: 8,
         }}

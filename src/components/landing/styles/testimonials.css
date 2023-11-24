@@ -1,0 +1,97 @@
+.card-carousel {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  height: 200px;
+  margin: 2rem auto;
+  align-items: center;
+  position: relative;
+}
+
+.card {
+  background: #f4f6e8;
+  border-radius: 8px;
+  border: 1px solid #eeeeee;
+  padding: 30px;
+  box-shadow: 0 10px 5px rgba(0, 0, 0, 0.1);
+  width: 420px;
+  height: 200px;
+  transition: all 0.75s ease;
+  opacity: 0;
+  position: absolute;
+  transform: scale(0.85) translateY(50px);
+}
+
+.card.active {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+  box-shadow: 0 30px 20px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+
+.card.next {
+  opacity: 1;
+  z-index: 0;
+}
+
+.card.prev {
+  transform: scale(1.1) translateY(-50px);
+  z-index: 2;
+  opacity: 0;
+  visibility: hidden;
+}
+
+/* Work Section */
+
+.wrapper {
+  margin: 0;
+  background-color: #f5ffe3;
+  padding-bottom: 2rem;
+  text-align: center;
+}
+.work-section-wrapper {
+  margin-top: 2rem;
+}
+.work-section-top p {
+  text-align: center;
+  max-width: 600px !important;
+}
+.work-section-top h1 {
+  max-width: 700px !important;
+}
+.work-section-top {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.work-section-info {
+  width: 290px;
+  min-height: 350px;
+  background-color: white;
+  padding: 1rem 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  border-radius: 1rem;
+  color: #505050;
+  margin: 1rem 2rem;
+}
+.work-section-info h2 {
+  margin: 1rem 0rem;
+}
+.work-section-bottom {
+  margin-top: 5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.work-section-info p {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  font-weight: 600;
+}

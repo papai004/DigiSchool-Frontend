@@ -109,7 +109,7 @@ const EditStudentModal = ({ open, dataToSend, onCancel, payloadData }) => {
         form={form}
         id="student__edit__form"
         layout="vertical"
-        name="nest-messages"
+        name="EditStudentForm"
         onFinish={onFinish}
         validateMessages={validateMessages}
         style={{

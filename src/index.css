@@ -5,6 +5,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-family: "Reem Kufi", sans-serif !important;
 }
 
 code {
@@ -14,4 +15,8 @@ code {
 
 .center {
   text-align: center;
+}
+
+.mt-minus-1 {
+  margin-top: -1rem !important;
 }

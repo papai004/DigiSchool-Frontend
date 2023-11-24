@@ -1,16 +1,21 @@
 import { Routes, Route } from "react-router-dom";
-import Login from "./pages/Login";
+import HomePage from "./pages/HomePage";
+import VerifySchool from "./pages/VerifySchool";
+import ResetPassword from "./pages/ResetPassword";
 import Dashboard from "./pages/Dashboard";
 import ManageStudent from "./pages/ManageStudent";
 import ManageStandard from "./pages/ManageStandard";
 import Settings from "./pages/Settings";
 import PrivateRoute from "./components/PrivateRoute";
+import PageNotFound from "./pages/404";
 
 const App = () => {
   return (
     <div className="App">
       <Routes>
-        <Route path="/" element={<Login />}></Route>
+        <Route path="/" element={<HomePage />}></Route>
+        <Route path="/reset_password/:token" element={<ResetPassword />}></Route>
+        <Route path="/verify_school_email/:token" element={<VerifySchool />}></Route>
         <Route
           path="/dashboard"
           element={
@@ -43,6 +48,7 @@ const App = () => {
             </PrivateRoute>
           }
         ></Route>
+        <Route path="*" element={<PageNotFound />} />
       </Routes>
     </div>
   );
