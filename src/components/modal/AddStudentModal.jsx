@@ -28,7 +28,7 @@ const validateMessages = {
   },
 };
 
-const validatePhoneNumber = (rule,value) => {
+const validatePhoneNumber = (rule, value) => {
   const phoneRegex = /^[0-9]{10}$/;
   if (value && !phoneRegex.test(value)) {
     return Promise.reject("Please enter a valid 10-digit phone number");
@@ -75,7 +75,7 @@ const AddStudentModal = ({ open, onCancel, dataToSend }) => {
   const standardChangeHandler = (event) => {
     form.setFieldValue("section", "");
     setStandardValue(event);
-  };  
+  };
 
   const getSection = () => {
     standardData.map((standard, _) => {
@@ -87,7 +87,7 @@ const AddStudentModal = ({ open, onCancel, dataToSend }) => {
   };
 
   useEffect(() => {
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [form.getFieldsValue()]);
 
   useEffect(() => {
@@ -101,16 +101,12 @@ const AddStudentModal = ({ open, onCancel, dataToSend }) => {
 
   return (
     <Modal
-      open={open}
+      open={true}
       onCancel={onCancel}
+      width={800}
       footer={null}
       maskClosable={false}
     >
-      <div style={{ textAlign: "center" }}>
-        <h2>
-          <u>Add Student</u>
-        </h2>
-      </div>
       <Form
         form={form}
         id="student__add__form"
@@ -124,193 +120,201 @@ const AddStudentModal = ({ open, onCancel, dataToSend }) => {
           margin: "auto",
         }}
       >
-        <div style={{ display: "flex" }}>
-          <Row>
-            <Col span={12} style={{ marginRight: "10px" }}>
-              <Form.Item
-                name="name"
-                label="Name"
-                rules={[
-                  {
-                    required: true,
-                  },
-                ]}
-              >
-                <Input placeholder="name" />
-              </Form.Item>
-            </Col>
-            <Col span={11}>
-              <Form.Item
-                name="parentName"
-                label="ParentName"
-                rules={[
-                  {
-                    required: true,
-                  },
-                ]}
-              >
-                <Input placeholder="Parent name" />
-              </Form.Item>
-            </Col>
-            <Col span={12} style={{ marginRight: "10px" }}>
-              <Form.Item
-                name="Gender"
-                label="Gender"
-                rules={[
-                  {
-                    required: true,
-                    message: "Please select gender!",
-                  },
-                ]}
-              >
-                <Select placeholder="Select gender">
-                  <Select.Option value="male">Male</Select.Option>
-                  <Select.Option value="female">Female</Select.Option>
-                </Select>
-              </Form.Item>
-            </Col>
-            <Col span={11}>
-              <Form.Item
-                name="roll"
-                label="Roll"
-                rules={[
-                  {
-                    required: true,
-                  },
-                  ({ getFieldValue }) => ({
-                    validator(_, value) {
-                      if (/^\d+$/.test(value) && parseInt(value, 10) > 0) {
-                        return Promise.resolve();
-                      }
-                      return Promise.reject(
-                        "Please enter a valid positive number."
-                      );
-                    },
-                  }),
-                ]}
-              >
-                <Input placeholder="please type roll" />
-              </Form.Item>
-            </Col>
-            <Col span={12} style={{ marginRight: "10px" }}>
-              <Form.Item
-                name="standard"
-                label="Standard"
-                rules={[
-                  {
-                    required: true,
-                  },
-                ]}
-              >
-                <Select
-                  placeholder="Select Standard"
-                  onChange={standardChangeHandler}
-                  style={{
-                    maxWidth: 400,
-                    maxHeight: 400,
-                    overflowY: "auto",
-                    margin: "auto",
-                  }}
-                >
-                  {standardData.map((standard, idx) => {
-                    return (
-                      <Select.Option key={idx} value={standard.standard_name}>
-                        {standard.standard_name}
-                      </Select.Option>
-                    );
-                  })}
-                </Select>
-              </Form.Item>
-            </Col>
-            <Col span={11}>
-              <Form.Item
-                name="section"
-                label="Section"
-                rules={[
-                  {
-                    required: true,
-                  },
-                ]}
-              >
-                <Select
-                  name="section"
-                  placeholder="Select Section"
-                  style={{
-                    maxWidth: 400,
-                    maxHeight: 400,
-                    overflowY: "auto",
-                    margin: "auto",
-                  }}
-                >
-                  {sectionValue.map((section, index) => {
-                    return (
-                      <Select.Option key={index} value={section.label}>
-                        {section.label}
-                      </Select.Option>
-                    );
-                  })}
-                </Select>
-              </Form.Item>
-            </Col>
-            <Col span={12} style={{ marginRight: "10px" }}>
-              <Form.Item
-                name="mobileNo"
-                label="Mobile Number"
-                rules={[
-                  {
-                    required: true,
-                    message: "Please input mobile number!",
-                  },
-                  {
-                    validator: validatePhoneNumber,
-                  },
-                ]}
-              >
-                <Input style={{ width: "100%" }} />
-              </Form.Item>
-            </Col>
-            <Col span={11}>
-              <Form.Item name="date" label="Date">
-                <DatePicker style={{ width: "100%" }} />
-              </Form.Item>
-            </Col>
-            <Col span={12} style={{ marginRight: "10px" }}>
-              <Form.Item
-                name="address"
-                label="Address"
-                rules={[
-                  {
-                    required: true,
-                  },
-                ]}
-              >
-                <Input placeholder="address" />
-              </Form.Item>
-            </Col>
-            <Col span={11}>
-              <Form.Item
-                name="bloodGroup"
-                label="BloodGroup"
-                rules={[
-                  {
-                    required: true,
-                  },
-                ]}
-              >
-                <Select placeholder="Select blood group">
-                  <Select.Option value="A+">A+</Select.Option>
-                  <Select.Option value="O+">O+</Select.Option>
-                  <Select.Option value="B+">B+</Select.Option>
-                  <Select.Option value="AB+">AB+</Select.Option>
-                  <Select.Option value="A-">A-</Select.Option>
-                  <Select.Option value="O-">O-</Select.Option>
-                  <Select.Option value="B-">B-</Select.Option>
-                  <Select.Option value="AB-">AB-</Select.Option>
-                </Select>
-              </Form.Item>
-            </Col>
-          </Row>
+        <div style={{ textAlign: "center" }}>
+          <h2>
+            <u>Add Student</u>
+          </h2>
         </div>
+
+        <Row gutter={[16, 16]}>
+          <Col span={8}>
+            <Form.Item
+              name="name"
+              label="Name"
+              rules={[
+                {
+                  required: true,
+                },
+              ]}
+            >
+              <Input placeholder="name" />
+            </Form.Item>
+          </Col>
+          <Col span={8}>
+            <Form.Item
+              name="parentName"
+              label="ParentName"
+              rules={[
+                {
+                  required: true,
+                },
+              ]}
+            >
+              <Input placeholder="Parent name" />
+            </Form.Item>
+          </Col>
+          <Col span={8}>
+            <Form.Item
+              name="Gender"
+              label="Gender"
+              rules={[
+                {
+                  required: true,
+                  message: "Please select gender!",
+                },
+              ]}
+            >
+              <Select placeholder="Select gender">
+                <Select.Option value="male">Male</Select.Option>
+                <Select.Option value="female">Female</Select.Option>
+              </Select>
+            </Form.Item>
+          </Col>
+
+          <Col span={8}>
+            <Form.Item
+              name="roll"
+              label="Roll"
+              rules={[
+                {
+                  required: true,
+                },
+                ({ getFieldValue }) => ({
+                  validator(_, value) {
+                    if (/^\d+$/.test(value) && parseInt(value, 10) > 0) {
+                      return Promise.resolve();
+                    }
+                    return Promise.reject(
+                      "Please enter a valid positive number."
+                    );
+                  },
+                }),
+              ]}
+            >
+              <Input placeholder="please type roll" />
+            </Form.Item>
+          </Col>
+          <Col span={8}>
+            <Form.Item
+              name="standard"
+              label="Standard"
+              rules={[
+                {
+                  required: true,
+                },
+              ]}
+            >
+              <Select
+                placeholder="Select Standard"
+                onChange={standardChangeHandler}
+                style={{
+                  maxWidth: 400,
+                  maxHeight: 400,
+                  overflowY: "auto",
+                  margin: "auto",
+                }}
+              >
+                {standardData.map((standard, idx) => {
+                  return (
+                    <Select.Option key={idx} value={standard.standard_name}>
+                      {standard.standard_name}
+                    </Select.Option>
+                  );
+                })}
+              </Select>
+            </Form.Item>
+          </Col>
+          <Col span={8}>
+            <Form.Item
+              name="section"
+              label="Section"
+              rules={[
+                {
+                  required: true,
+                },
+              ]}
+            >
+              <Select
+                name="section"
+                placeholder="Select Section"
+                style={{
+                  maxHeight: 400,
+                  overflow: "auto",
+                  margin: "auto",
+                }}
+              >
+                {sectionValue.map((section, index) => {
+                  return (
+                    <Select.Option key={index} value={section.label}>
+                      {section.label}
+                    </Select.Option>
+                  );
+                })}
+              </Select>
+            </Form.Item>
+          </Col>
+
+          <Col span={8}>
+            <Form.Item
+              name="mobileNo"
+              label="Mobile Number"
+              rules={[
+                {
+                  required: true,
+                  message: "Please input mobile number!",
+                },
+                {
+                  validator: validatePhoneNumber,
+                },
+              ]}
+            >
+              <Input style={{ width: "100%" }} />
+            </Form.Item>
+          </Col>
+
+          <Col span={8}>
+            <Form.Item
+              name="bloodGroup"
+              label="BloodGroup"
+              rules={[
+                {
+                  required: true,
+                },
+              ]}
+            >
+              <Select placeholder="Select blood group">
+                <Select.Option value="A+">A+</Select.Option>
+                <Select.Option value="O+">O+</Select.Option>
+                <Select.Option value="B+">B+</Select.Option>
+                <Select.Option value="AB+">AB+</Select.Option>
+                <Select.Option value="A-">A-</Select.Option>
+                <Select.Option value="O-">O-</Select.Option>
+                <Select.Option value="B-">B-</Select.Option>
+                <Select.Option value="AB-">AB-</Select.Option>
+              </Select>
+            </Form.Item>
+          </Col>
+
+          <Col span={8}>
+            <Form.Item
+              name="address"
+              label="Address"
+              rules={[
+                {
+                  required: true,
+                },
+              ]}
+            >
+              <Input placeholder="address" />
+            </Form.Item>
+          </Col>
+
+          <Col span={12} style={{ margin: "auto" }}>
+            <Form.Item name="date" label="Date">
+              <DatePicker style={{ width: "100%" }} />
+            </Form.Item>
+          </Col>
+        </Row>
         <Row>
           <Button
             type="primary"

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Button, Form, Input, notification } from "antd";
+import { Button, Col, Form, Input, Row, notification } from "antd";
 import networkRequest from "../lib/apis/networkRequest";
 import { useForm } from "antd/es/form/Form";
 
@@ -70,101 +70,100 @@ const Login = () => {
 
   return (
     <React.Fragment>
-      <Form
-      form={form}
-      labelCol={{
-        span: 7,
-      }}
-      wrapperCol={{
-        span: 17,
-      }}
-        name="Sign up Form"
-        style={{
-          maxWidth: 600,
-          height: "320px"
-        }}
-        initialValues={{
-          remember: true,
-        }}
-        onFinish={onFinish}
-        autoComplete="off"
-      >
-        <h2 style={{ textAlign: "center" }}> Signup to DigiSchool </h2>
-        <Form.Item
-          label="Email"
-          name="email"
-          rules={[
-            {
-              required: true,
-              type: "email",
-              message: "The input is not valid Email!",
-            },
-          ]}
-        >
-          <Input />
-        </Form.Item>
-
-        <Form.Item
-          label="SchoolName"
-          name="schoolName"
-          rules={[
-            {
-              required: true,
-            },
-          ]}
-        >
-          <Input placeholder="Give your organisation's name" />
-        </Form.Item>
-
-        <Form.Item
-          label="Password"
-          name="password"
-          rules={[
-            {
-              required: true,
-              message: "Please input your password!",
-            },
-            {
-              validator: validatePassword,
-            },
-          ]}
-        >
-          <Input.Password />
-        </Form.Item>
-        <Form.Item
-          name="confirm_Password"
-          label="Confirm password"
-          dependencies={["password"]}
-          hasFeedback
-          rules={[
-            {
-              required: true,
-              message: "Please confirm your password!",
-            },
-            ({ getFieldValue }) => ({
-              validator(_, value) {
-                if (!value || getFieldValue("password") === value) {
-                  return Promise.resolve();
-                }
-                return Promise.reject(
-                  new Error("The new password that you entered do not match!")
-                );
-              },
-            }),
-          ]}
-        >
-          <Input.Password />
-        </Form.Item>
-        <Form.Item
-          wrapperCol={{
-            offset: 10,
-            span: 14,
-          }}
-        >
-          <Button loading={isLoading} type="primary" htmlType="submit">
-            Sign Up
+      <Form form={form} layout="vertical" name="SignUpForm" onFinish={onFinish}>
+          <h2 style={{ textAlign: "center" }}> Signup to DigiSchool </h2>
+          <Row>
+            <Col offset={4} span={20} style={{ margin: "auto" }}>
+              <Form.Item
+                label="Email"
+                name="email"
+                rules={[
+                  {
+                    required: true,
+                    type: "email",
+                    message: "The input is not a valid Email!",
+                  },
+                ]}
+              >
+                <Input />
+              </Form.Item>
+            </Col>
+          </Row>
+          <Row className="mt-minus-1">
+            <Col offset={4} span={20} style={{ margin: "auto" }}>
+              <Form.Item
+                label="SchoolName"
+                name="schoolName"
+                rules={[
+                  {
+                    required: true,
+                    message: "Please Give your organization a name!",
+                  },
+                ]}
+              >
+                <Input placeholder="Give your organization's name" />
+              </Form.Item>
+            </Col>
+          </Row>
+          <Row className="mt-minus-1">
+            <Col offset={4} span={20} style={{ margin: "auto" }}>
+              <Form.Item
+                label="Password"
+                name="password"
+                rules={[
+                  {
+                    required: true,
+                    message: "Please input your password!",
+                  },
+                  {
+                    validator: validatePassword,
+                  },
+                ]}
+              >
+                <Input.Password />
+              </Form.Item>
+            </Col>
+          </Row>
+          <Row className="mt-minus-1">
+            <Col offset={4} span={20} style={{ margin: "auto" }}>
+              <Form.Item
+                name="confirm_Password"
+                label="Confirm password"
+                dependencies={["password"]}
+                hasFeedback
+                rules={[
+                  {
+                    required: true,
+                    message: "Please confirm your password!",
+                  },
+                  ({ getFieldValue }) => ({
+                    validator(_, value) {
+                      if (!value || getFieldValue("password") === value) {
+                        return Promise.resolve();
+                      }
+                      return Promise.reject(
+                        new Error(
+                          "The new password that you entered does not match!"
+                        )
+                      );
+                    },
+                  }),
+                ]}
+              >
+                <Input.Password />
+              </Form.Item>
+            </Col>
+          </Row>
+        <Row className="mt-minus-1">
+          <Button
+            loading={isLoading}
+            type="primary"
+            htmlType="submit"
+            style={{ width: "25%", margin: "auto" }}
+          >
+            SignUp
           </Button>
-        </Form.Item>
+        </Row>
       </Form>
     </React.Fragment>
   );

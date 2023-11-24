@@ -3,7 +3,7 @@ import { Modal, Form, Input, Button, notification } from "antd";
 import networkRequest from "../../lib/apis/networkRequest";
 import { useNavigate } from "react-router-dom";
 
-const ForgotPasswordModal = ({open, onCancel}) => {
+const ForgotPasswordModal = ({open, onCancel, colseModal}) => {
   const [form] = Form.useForm();
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
@@ -27,6 +27,7 @@ const ForgotPasswordModal = ({open, onCancel}) => {
           });
           setIsLoading(false);
           form.resetFields();
+          colseModal(false);
           navigate("/");
         } else {
           notification.error({

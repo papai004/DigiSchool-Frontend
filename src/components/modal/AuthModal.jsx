@@ -17,16 +17,13 @@ const items = [
 ];
 
 const AuthModal = ({ open, onCancel, loginValue }) => {
-  const onChange = (key) => {
-    console.log(key);
-  };
 
   let defaultKey;
   loginValue === "login" ? (defaultKey = "2") : (defaultKey = "1");
 
   return (
     <Modal open={open} onCancel={onCancel} footer={null}>
-      <Tabs defaultActiveKey={defaultKey} items={items} onChange={onChange} />
+      <Tabs defaultActiveKey={defaultKey} items={items} />
     </Modal>
   );
 };
