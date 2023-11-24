@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
 import { Button, Form, Input, Modal } from "antd";
-import styles from "./addStandardModal.module.css";
+import styles from "../../styles/addStandardModal.module.css";
 
 const formItemLayout = {
   labelCol: {
@@ -53,7 +53,7 @@ const StandardAddModal = (props) => {
       <Modal width={450} open={open} onCancel={onCancel} footer={null} maskClosable={false}>
         <Form
           form={form}
-          name="dynamic_form_item"
+          name="AddStandardForm"
           onFinish={onFinish}
           layout="vertical"
           style={{

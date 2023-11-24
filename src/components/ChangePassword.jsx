@@ -60,7 +60,7 @@ const ChangePassword = () => {
     <StyledCard>
       <Form
         form={form}
-        name="basic"
+        name="ChangePasswordForm"
         labelCol={{
           span: 6,
         }}
@@ -71,8 +71,6 @@ const ChangePassword = () => {
         onFinish={onFinish}
         autoComplete="off"
       >
-        {/* <div style={{textAlign: "center"}}><h3 color="green">Reset Password</h3></div> */}
-
         <Form.Item
           label="Old password"
           name="old_Password"
