@@ -2,14 +2,14 @@
   list-style: none;
   display: flex;
   flex-direction: column;
-  height: 200px;
-  margin: 2rem auto;
+  height: 45vh;
+  margin: 1rem 0 0 0;
   align-items: center;
   position: relative;
 }
 
 .card {
-  background: #f4f6e8;
+  background: white;
   border-radius: 8px;
   border: 1px solid #eeeeee;
   padding: 30px;
@@ -45,7 +45,7 @@
 
 .wrapper {
   margin: 0;
-  background-color: #f5ffe3;
+  background-color: white;
   padding-bottom: 2rem;
   text-align: center;
 }
@@ -69,6 +69,7 @@
   width: 290px;
   min-height: 350px;
   background-color: white;
+  box-shadow: 0 30px 20px rgba(0, 0, 0, 0.2);
   padding: 1rem 2rem;
   display: flex;
   flex-direction: column;
@@ -88,10 +89,21 @@
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
+  background-color: white;
 }
 .work-section-info p {
   flex: 1;
   display: flex;
   align-items: center;
   font-weight: 600;
+}
+
+@media only screen and (max-width: 600px) {
+  .card{
+    width: 200px;
+    height: 300px;
+  }
+  .card-carousel{
+    height: 60vh;
+  }
 }

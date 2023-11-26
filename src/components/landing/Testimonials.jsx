@@ -80,8 +80,8 @@ const Testemonials = () => {
   }, [handleCardTransition, indexes]);
 
   return (
-    <div className="container" style={{backgroundColor: "#f5ffe3", height: "50vh"}}>
-      <h1 style={{textAlign: "center"}}>What They Are Saying</h1>
+    <div className="container" style={{backgroundColor: "white"}}>
+      <h1 style={{textAlign: "center", paddingTop: "1rem"}}>What They Are Saying</h1>
       <ul className="card-carousel">
         {cardItems.map((card, index) => (
           <li

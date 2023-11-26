@@ -1,5 +1,4 @@
 import { Row, Col } from "antd";
-import Home1 from "../assets/images/home1.svg";
 import Home2 from "../assets/images/home2.svg";
 import Navbar from "../components/landing/Navbar";
 import Feature from "../components/landing/Features";
@@ -11,10 +10,29 @@ const Landing = () => {
   return (
     <>
       <Navbar />
-      <Row style={{ backgroundColor: "#f5ffe3" }}>
-        <Col span={8} style={{ backgroundImage: `url(${Home1})`, height: "70vh"}} />
-        <Col span={8} style={{margin: "auto"}}></Col>
-        <Col span={8} style={{ backgroundImage: `url(${Home2})`, height: "70vh"}} />
+      <Row style={{ backgroundColor: "white" }}>
+        <Col span={10} style={{ margin: "auto" }}>
+          <h1 style={{fontFamily: "monospace"}}>Designed For School Administrators</h1>
+          <h3>
+            Boasts a user-friendly interface with a suite of powerful features
+            to streamline class and student management.
+          </h3>
+          <h1 style={{fontFamily: "monospace"}}>Seamless Student Enrollment</h1>
+          <h3>
+            allowing administrators to input and manage student details
+            effortlessly. An innovative search functionality enables quick
+            retrieval of specific student information.
+          </h3>
+        </Col>
+        <Col
+          span={13}
+          style={{
+            backgroundImage: `url(${Home2})`,
+            backgroundRepeat: "no-repeat",
+            backgroundPosition: "right",
+            height: "70vh",
+          }}
+        />
       </Row>
       <Feature />
       <Work />

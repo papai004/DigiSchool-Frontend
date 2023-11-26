@@ -11,33 +11,33 @@ const Work = () => {
   const workInfoData = [
     {
       image: Signup,
-      title: "Signup",
-      text: "Lorem ipsum dolor sit amet consectetur. Maecenas orci et sagittis duis elementum interdum facilisi bibendum.",
+      title: "Robust Authentication",
+      text: "Ensures proper authentication and authorization for secure data access.",
     },
     {
       image: login,
-      title: "Login",
-      text: "Lorem ipsum dolor sit amet consectetur. Maecenas orci et ",
+      title: "Integration",
+      text: "Considers integrating features like email notifications for important events.",
     },
     {
       image: add,
-      title: "Add Students",
-      text: "Lorem ipsum dolor sit amet consectetur. Maecenas orci et lorem ipsum",
+      title: "Search and Filters",
+      text: "Search functionality for classes, sections, and students, Filters for quick navigation based on class, section",
     },
     {
       image: classes,
-      title: "Add Classses And Sections",
-      text: "Lorem ipsum dolor sit amet consectetur. Maecenas orci et lorem ipsum",
+      title: "Documentation",
+      text: "Provides documentation for administrators on how to use the system.",
     },
     {
       image: Download,
-      title: "Download CSV Data",
-      text: "Lorem ipsum dolor sit amet consectetur. Maecenas orci et lorem ipsum",
+      title: "Download Reports",
+      text: "Options to download reports in various formats (CSV, Excel). Reports could include class lists, section-wise student details, etc.",
     },
     {
       image: Search,
-      title: "Find Student and Edit",
-      text: "Lorem ipsum dolor sit amet consectetur. Maecenas orci et lorem ipsum",
+      title: "Settings:",
+      text: "Allows administrators to configure settings such as system preferences.",
     },
   ];
   return (
