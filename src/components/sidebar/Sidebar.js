@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { Menu, Layout } from "antd";
+import { Menu, Layout, notification } from "antd";
 import { MdManageAccounts } from "react-icons/md";
 import { SiGoogleclassroom } from "react-icons/si";
 import {
@@ -54,6 +54,9 @@ function Sidebar() {
     if (newPath === "/") {
       localStorage.removeItem("accessToken");
       localStorage.removeItem("refreshToken");
+      notification.success({
+        message: "User Logout Successfully",
+      });
     }
   };
 
