@@ -1,26 +1,22 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button, Col, Form, Input, Row, notification } from "antd";
-import networkRequest from "../lib/apis/networkRequest";
+import { FcInfo } from "react-icons/fc";
 import { useForm } from "antd/es/form/Form";
+import networkRequest from "../lib/apis/networkRequest";
 
 const validatePassword = (rule, value) => {
-  if (value.length < 6) {
-    return Promise.reject("Password must be at least 6 characters long");
+  const strongPasswordRegex =
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>])[A-Za-z\d!@#$%^&*(),.?":{}|<>]{8,}$/;
+
+  if (!strongPasswordRegex.test(value)) {
+    return Promise.reject("Please provide correct Password type.");
   }
-  if (
-    !/[a-zA-Z]/.test(value) ||
-    !/\d/.test(value) ||
-    !/[!@#$%^&*(),.?":{}|<>]/.test(value)
-  ) {
-    return Promise.reject(
-      "Password must contain at least one letter, one digit, and one special character"
-    );
-  }
+
   return Promise.resolve();
 };
 
-const Login = () => {
+const Signup = ({ valueFromSignup }) => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [form] = useForm();
@@ -46,7 +42,7 @@ const Login = () => {
         });
         setIsLoading(false);
         form.resetFields();
-        navigate("/");
+        valueFromSignup("login");
       } else {
         notification.error({
           message: message || "something went wrong",
@@ -57,6 +53,11 @@ const Login = () => {
       console.log("Error =", err);
       setIsLoading(false);
     }
+  };
+
+  const LoginHandler = (e) => {
+    e.preventDefault();
+    valueFromSignup("login");
   };
 
   useEffect(() => {
@@ -70,103 +71,113 @@ const Login = () => {
 
   return (
     <React.Fragment>
-      <Form form={form} layout="vertical" name="SignUpForm" onFinish={onFinish}>
-          <h2 style={{ textAlign: "center" }}> Signup to DigiSchool </h2>
-          <Row>
-            <Col offset={4} span={20} style={{ margin: "auto" }}>
-              <Form.Item
-                label="Email"
-                name="email"
-                rules={[
-                  {
-                    required: true,
-                    type: "email",
-                    message: "The input is not a valid Email!",
-                  },
-                ]}
-              >
-                <Input />
-              </Form.Item>
-            </Col>
-          </Row>
-          <Row className="mt-minus-1">
-            <Col offset={4} span={20} style={{ margin: "auto" }}>
-              <Form.Item
-                label="SchoolName"
-                name="schoolName"
-                rules={[
-                  {
-                    required: true,
-                    message: "Please Give your organization a name!",
-                  },
-                ]}
-              >
-                <Input placeholder="Give your organization's name" />
-              </Form.Item>
-            </Col>
-          </Row>
-          <Row className="mt-minus-1">
-            <Col offset={4} span={20} style={{ margin: "auto" }}>
-              <Form.Item
-                label="Password"
-                name="password"
-                rules={[
-                  {
-                    required: true,
-                    message: "Please input your password!",
-                  },
-                  {
-                    validator: validatePassword,
-                  },
-                ]}
-              >
-                <Input.Password />
-              </Form.Item>
-            </Col>
-          </Row>
-          <Row className="mt-minus-1">
-            <Col offset={4} span={20} style={{ margin: "auto" }}>
-              <Form.Item
-                name="confirm_Password"
-                label="Confirm password"
-                dependencies={["password"]}
-                hasFeedback
-                rules={[
-                  {
-                    required: true,
-                    message: "Please confirm your password!",
-                  },
-                  ({ getFieldValue }) => ({
-                    validator(_, value) {
-                      if (!value || getFieldValue("password") === value) {
-                        return Promise.resolve();
-                      }
-                      return Promise.reject(
-                        new Error(
-                          "The new password that you entered does not match!"
-                        )
-                      );
-                    },
-                  }),
-                ]}
-              >
-                <Input.Password />
-              </Form.Item>
-            </Col>
-          </Row>
+      <Form
+        form={form}
+        // style={{ height: "360px" }}
+        layout="vertical"
+        name="SignUpForm"
+        onFinish={onFinish}
+      >
+        <Row>
+          <Col offset={4} span={20} style={{ margin: "auto" }}>
+            <Form.Item
+              label="Email"
+              name="email"
+              rules={[
+                {
+                  required: true,
+                  type: "email",
+                  message: "The input is not a valid Email!",
+                },
+              ]}
+            >
+              <Input />
+            </Form.Item>
+          </Col>
+        </Row>
         <Row className="mt-minus-1">
+          <Col offset={4} span={20} style={{ margin: "auto" }}>
+            <Form.Item
+              label="SchoolName"
+              name="schoolName"
+              rules={[
+                {
+                  required: true,
+                  message: "Please Give a name!",
+                },
+              ]}
+            >
+              <Input placeholder="Give your organization's name" />
+            </Form.Item>
+          </Col>
+        </Row>
+        <Row className="mt-minus-1">
+          <Col offset={4} span={20} style={{ margin: "auto" }}>
+            <Form.Item
+              label="Password"
+              name="password"
+              tooltip={{
+                title:
+                  "Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one digit, and one special character.",
+                icon: <FcInfo />,
+              }}
+              rules={[
+                {
+                  required: true,
+                  validator: validatePassword,
+                },
+              ]}
+            >
+              <Input.Password />
+            </Form.Item>
+          </Col>
+        </Row>
+        <Row>
+          <Col offset={4} span={20} style={{ margin: "auto" }}>
+            <Form.Item
+              name="confirm_Password"
+              label="Confirm password"
+              dependencies={["password"]}
+              hasFeedback
+              rules={[
+                {
+                  required: true,
+                  message: "Please confirm your password!",
+                },
+                ({ getFieldValue }) => ({
+                  validator(_, value) {
+                    if (!value || getFieldValue("password") === value) {
+                      return Promise.resolve();
+                    }
+                    return Promise.reject(
+                      new Error(
+                        "The new password that you entered does not match!"
+                      )
+                    );
+                  },
+                }),
+              ]}
+            >
+              <Input.Password />
+            </Form.Item>
+          </Col>
+        </Row>
+        <Row>
           <Button
             loading={isLoading}
             type="primary"
             htmlType="submit"
-            style={{ width: "25%", margin: "auto" }}
+            style={{ margin: "auto 0 auto 32%" }}
           >
             SignUp
           </Button>
+          <div style={{ width: "50%", margin: "auto" }}>
+            <Link onClick={LoginHandler}>Already have an Account?</Link>
+          </div>
         </Row>
       </Form>
     </React.Fragment>
   );
 };
 
-export default Login;
+export default Signup;

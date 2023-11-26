@@ -22,12 +22,10 @@ const Footer = () => {
     <div
       style={{
         backgroundColor: "#1B1B1B",
-        padding: "2%",
         textAlign: "center",
         color: "white",
         width: "100%",
-        paddingTop: "1rem",
-        marginBottom: "-2rem",
+        padding: "2rem 0 2rem 0",
       }}
     >
       <p>Copyright@{year}</p>

@@ -15,16 +15,6 @@ const Settings = () => {
       key: "1",
       children: <ChangePassword />,
     },
-    {
-      label: "Tab 2",
-      key: "2",
-      children: "This is content for Tab 2",
-    },
-    {
-      label: "Tab 3",
-      key: "3",
-      children: "This is content for Tab 3",
-    },
   ];
 
   return (

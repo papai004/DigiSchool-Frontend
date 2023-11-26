@@ -4,7 +4,7 @@ import { Button, Col, Form, Input, Row, notification } from "antd";
 import networkRequest from "../lib/apis/networkRequest";
 import ForgotPasswordModal from "./modal/ForgotPasswordModal";
 
-const Login = () => {
+const Login = ({valueFromLogin}) => {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
@@ -53,6 +53,11 @@ const Login = () => {
 
   const colseModalHandler = (value) => {
     setIsOpen(value);
+  };
+
+  const LoginHandler = (e) => {
+    e.preventDefault();
+    valueFromLogin("signup");
   }
 
   useEffect(() => {
@@ -72,8 +77,8 @@ const Login = () => {
           id="LoginForm"
           name="LoginForm"
           style={{
+            height: "360px",
             maxWidth: 600,
-            height: "430px",
           }}
           initialValues={{
             remember: true,
@@ -81,7 +86,6 @@ const Login = () => {
           onFinish={onFinish}
           autoComplete="off"
         >
-          <h2 style={{ textAlign: "center" }}> Welcome back, Please login</h2>
           <Row>
             <Col offset={4} span={20} style={{ margin: "auto" }}>
               <Form.Item
@@ -100,7 +104,7 @@ const Login = () => {
             </Col>
           </Row>
 
-          <Row>
+          <Row className="mt-minus-1">
             <Col offset={4} span={20} style={{ margin: "auto" }}>
               <Form.Item
                 label="Password"
@@ -116,30 +120,31 @@ const Login = () => {
               </Form.Item>
             </Col>
           </Row>
-          {isOpen === true ? (
-            <ForgotPasswordModal open={isOpen} onCancel={onCancel} colseModal={colseModalHandler}/>
-          ) : null}
-          <Form.Item
-            name="forgot password"
-            wrapperCol={{
-              offset: 8,
-              span: 16,
-            }}
-          >
-            <Link style={{ color: "blue" }} onClick={onClick}>
-              forgot password?
-            </Link>
-          </Form.Item>
-
-          <Form.Item
-            wrapperCol={{
-              offset: 10,
-              span: 14,
-            }}
-          >
-            <Button loading={isLoading} type="primary" htmlType="submit">
+          <Row>
+            <Button
+              style={{ margin: "auto 0 auto 30%" }}
+              loading={isLoading}
+              type="primary"
+              htmlType="submit"
+            >
               Login
             </Button>
+            <div style={{ width: "50%", margin: "auto" }}>
+              <Link onClick={LoginHandler}>Create Account</Link>
+            </div>
+          </Row>
+          {isOpen === true ? (
+            <ForgotPasswordModal
+              open={isOpen}
+              onCancel={onCancel}
+              colseModal={colseModalHandler}
+            />
+          ) : null}
+          
+          <Form.Item
+            style={{marginTop: "1rem", marginLeft: "8rem", marginRight: "-6rem"}}
+            name="forgot password">
+            <Link onClick={onClick}>forgot password?</Link>
           </Form.Item>
         </Form>
       </div>

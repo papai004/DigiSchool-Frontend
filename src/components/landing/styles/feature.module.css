@@ -1,13 +1,10 @@
 .wrapper {
     margin: 0;
-    background-color: #f5ffe3;
+    background-color: white;
     padding-bottom: 2rem;
     text-align: center;
   }
-  
-  .main-title {
-    font-size: 1.8rem;
-    font-weight: bold;
-    color: #252526;
-    padding: 1rem;
-  }
+
+.feature__card{
+  box-shadow: 0 30px 20px rgba(0, 0, 0, 0.2);
+}

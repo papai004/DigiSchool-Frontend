@@ -1,18 +1,17 @@
 import React, { useState } from "react";
 import { Button, Form, Input, notification } from "antd";
-import StyledCard from "./card/StyledCard";
+import { FcInfo } from "react-icons/fc";
 import { useForm } from "antd/es/form/Form";
 import networkRequest from "../lib/apis/networkRequest";
 
 const validatePassword = (rule, value) => {
-  if (value.length < 6) {
-    return Promise.reject("Password must be at least 6 characters long");
+  const strongPasswordRegex =
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>])[A-Za-z\d!@#$%^&*(),.?":{}|<>]{8,}$/;
+
+  if (!strongPasswordRegex.test(value)) {
+    return Promise.reject("Please provide correct Password type.");
   }
-  if (!/[a-zA-Z]/.test(value) || !/\d/.test(value) || !/[!@#$%^&*(),.?":{}|<>]/.test(value)) {
-    return Promise.reject(
-      "Password must contain at least one letter, one digit, and one special character"
-    );
-  }
+
   return Promise.resolve();
 };
 
@@ -57,20 +56,20 @@ const ChangePassword = () => {
   };
 
   return (
-    <StyledCard>
+    <div style={{backgroundColor: "white", margin: "auto"}}>
       <Form
         form={form}
         name="ChangePasswordForm"
         labelCol={{
-          span: 6,
+          span: 8,
         }}
         wrapperCol={{
-          span: 16,
+          span: 10,
         }}
-        style={{ marginTop: "2rem" }}
         onFinish={onFinish}
         autoComplete="off"
       >
+        <h2 style={{textAlign:"center", paddingTop: "1rem"}}>Kindly Give The Details:</h2>
         <Form.Item
           label="Old password"
           name="old_Password"
@@ -87,12 +86,13 @@ const ChangePassword = () => {
           name="new_Password"
           label="New password"
           dependencies={["old_Password"]}
+          tooltip={{
+            title:
+              "Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one digit, and one special character.",
+            icon: <FcInfo />,
+          }}
           hasFeedback
           rules={[
-            {
-              required: true,
-              message: "Please set your password!",
-            },
             ({ getFieldValue }) => ({
               validator(_, value) {
                 if (!value || getFieldValue("old_Password") !== value) {
@@ -106,6 +106,7 @@ const ChangePassword = () => {
               },
             }),
             {
+              required: true,
               validator: validatePassword,
             },
           ]}
@@ -136,18 +137,13 @@ const ChangePassword = () => {
         >
           <Input.Password />
         </Form.Item>
-        <Form.Item
-          wrapperCol={{
-            offset: 8,
-            span: 16,
-          }}
-        >
-          <Button loading={isLoading} type="primary" htmlType="submit">
+        <div style={{display: "flex", paddingBottom: "2rem"}}>
+          <Button style={{margin: "auto"}} loading={isLoading} type="primary" htmlType="submit">
             Reset Password
           </Button>
-        </Form.Item>
+          </div>
       </Form>
-    </StyledCard>
+      </div>
   );
 };
 

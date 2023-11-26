@@ -1,20 +1,20 @@
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Button, Input, Form, notification } from 'antd';
+import { FcInfo } from "react-icons/fc";
 import StyledCard from '../components/card/StyledCard';
 import networkRequest from '../lib/apis/networkRequest';
 import { useForm } from 'antd/es/form/Form';
 
 
 const validatePassword = (rule, value) => {
-  if (value.length < 6) {
-    return Promise.reject("Password must be at least 6 characters long");
+  const strongPasswordRegex =
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>])[A-Za-z\d!@#$%^&*(),.?":{}|<>]{8,}$/;
+
+  if (!strongPasswordRegex.test(value)) {
+    return Promise.reject("Please provide correct Password type.");
   }
-  if (!/[a-zA-Z]/.test(value) || !/\d/.test(value) || !/[!@#$%^&*(),.?":{}|<>]/.test(value)) {
-    return Promise.reject(
-      "Password must contain at least one letter, one digit, and one special character"
-    );
-  }
+
   return Promise.resolve();
 };
 
@@ -91,13 +91,15 @@ const ResetPassword = () => {
         <Form.Item
           name="new_Password"
           label="New password"
+          tooltip={{
+            title:
+              "Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one digit, and one special character.",
+            icon: <FcInfo />,
+          }}
           hasFeedback
           rules={[
             {
               required: true,
-              message: "Please set your password!",
-            },
-            {
               validator: validatePassword,
             },
           ]}

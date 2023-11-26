@@ -1,29 +1,32 @@
-import React from "react";
-import { Modal, Tabs } from "antd";
-import Login from "../Login";
+import React, { useState } from "react";
+import { Modal } from "antd";
 import Signup from "../Signup";
+import Login from "../Login";
 
-const items = [
-  {
-    key: "1",
-    label: "SignUp",
-    children: <Signup />,
-  },
-  {
-    key: "2",
-    label: "Login",
-    children: <Login />,
-  },
-];
+const AuthModal = ({ open, onCancel }) => {
+  const [modalValue, setModalValue] = useState("");
 
-const AuthModal = ({ open, onCancel, loginValue }) => {
+  const singnupHandler = (value) => {
+    setModalValue(value);
+  };
 
-  let defaultKey;
-  loginValue === "login" ? (defaultKey = "2") : (defaultKey = "1");
+  const loginHandler = (value) => {
+    setModalValue(value);
+  };
 
   return (
-    <Modal open={open} onCancel={onCancel} footer={null}>
-      <Tabs defaultActiveKey={defaultKey} items={items} />
+    <Modal
+      style={{ textAlign: "center" }}
+      title={modalValue === "" || modalValue === "signup" ? "Please Sign Up" : "Welcome back, Please login"}
+      open={open}
+      onCancel={onCancel}
+      footer={null}
+    >
+      {modalValue === "" || modalValue === "signup" ? (
+        <Signup valueFromSignup={singnupHandler} />
+      ) : (
+        <Login valueFromLogin={loginHandler}/>
+      )}
     </Modal>
   );
 };
