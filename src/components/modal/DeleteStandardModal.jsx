@@ -15,7 +15,7 @@ const StandardDeleteModal = ({ visible, onClose, payloadData, response }) => {
       maskClosable={false}
     >
       <h3>
-        Do you really want to delete the standard{" "}
+        Do you really want to delete the standard
         <Tag color="blue">{payloadData.standard_name}</Tag>?
       </h3>
       <div style={{ display: "flex", justifyContent: "center" }}>

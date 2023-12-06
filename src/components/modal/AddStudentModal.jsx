@@ -40,6 +40,7 @@ const AddStudentModal = ({ open, onCancel, dataToSend }) => {
   const [standardData, setStandardData] = useState([]);
   const [standardValue, setStandardValue] = useState("");
   const [sectionValue, setSectionValue] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   const [form] = useForm();
 
   const getStandardList = async () => {
@@ -67,6 +68,7 @@ const AddStudentModal = ({ open, onCancel, dataToSend }) => {
 
   const onFinish = (values) => {
     dataToSend(values);
+    setIsLoading(true);
     if (open === false) {
       form.resetFields();
     }
@@ -117,6 +119,7 @@ const AddStudentModal = ({ open, onCancel, dataToSend }) => {
         style={{
           maxHeight: 400,
           overflowY: "auto",
+          overflowX: "hidden",
           margin: "auto",
         }}
       >
@@ -143,7 +146,7 @@ const AddStudentModal = ({ open, onCancel, dataToSend }) => {
           <Col span={8}>
             <Form.Item
               name="parentName"
-              label="ParentName"
+              label="Parent name"
               rules={[
                 {
                   required: true,
@@ -257,7 +260,7 @@ const AddStudentModal = ({ open, onCancel, dataToSend }) => {
           <Col span={8}>
             <Form.Item
               name="mobileNo"
-              label="Mobile Number"
+              label="Mobile no"
               rules={[
                 {
                   required: true,
@@ -275,7 +278,7 @@ const AddStudentModal = ({ open, onCancel, dataToSend }) => {
           <Col span={8}>
             <Form.Item
               name="bloodGroup"
-              label="BloodGroup"
+              label="Blood group"
               rules={[
                 {
                   required: true,
@@ -317,6 +320,7 @@ const AddStudentModal = ({ open, onCancel, dataToSend }) => {
         </Row>
         <Row>
           <Button
+            loading={isLoading}
             type="primary"
             htmlType="submit"
             style={{ width: "25%", margin: "auto" }}

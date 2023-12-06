@@ -77,7 +77,7 @@ const Login = ({valueFromLogin}) => {
           id="LoginForm"
           name="LoginForm"
           style={{
-            height: "360px",
+            height: "385px",
             maxWidth: 600,
           }}
           initialValues={{
@@ -99,7 +99,7 @@ const Login = ({valueFromLogin}) => {
                   },
                 ]}
               >
-                <Input />
+                <Input placeholder="type email"/>
               </Form.Item>
             </Col>
           </Row>
@@ -116,23 +116,23 @@ const Login = ({valueFromLogin}) => {
                   },
                 ]}
               >
-                <Input.Password />
+                <Input.Password placeholder="type password"/>
               </Form.Item>
             </Col>
           </Row>
           <Row>
             <Button
-              style={{ margin: "auto 0 auto 30%" }}
+              style={{ margin: "auto auto 10px auto" }}
               loading={isLoading}
               type="primary"
               htmlType="submit"
             >
               Login
             </Button>
-            <div style={{ width: "50%", margin: "auto" }}>
+          </Row>
+          <div style={{ margin: "auto auto 10px auto" }}>
               <Link onClick={LoginHandler}>Create Account</Link>
             </div>
-          </Row>
           {isOpen === true ? (
             <ForgotPasswordModal
               open={isOpen}
@@ -142,7 +142,6 @@ const Login = ({valueFromLogin}) => {
           ) : null}
           
           <Form.Item
-            style={{marginTop: "1rem", marginLeft: "8rem", marginRight: "-6rem"}}
             name="forgot password">
             <Link onClick={onClick}>forgot password?</Link>
           </Form.Item>
