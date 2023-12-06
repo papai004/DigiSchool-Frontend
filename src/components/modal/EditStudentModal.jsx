@@ -39,6 +39,7 @@ const EditStudentModal = ({ open, dataToSend, onCancel, payloadData }) => {
   const [standardData, setStandardData] = useState([]);
   const [standardValue, setStandardValue] = useState("");
   const [sectionValue, setSectionValue] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   const [form] = useForm();
 
   const getStandardList = async () => {
@@ -63,8 +64,11 @@ const EditStudentModal = ({ open, dataToSend, onCancel, payloadData }) => {
 
   const onFinish = (values) => {
     payloadData(values);
+    setIsLoading(true);
     if (open === false) {
       form.resetFields();
+    }else{
+      setIsLoading(false);
     }
   };
 
@@ -302,6 +306,7 @@ const EditStudentModal = ({ open, dataToSend, onCancel, payloadData }) => {
         </div>
         <Row>
           <Button
+            loading={isLoading}
             type="primary"
             htmlType="submit"
             style={{ width: "25%", margin: "auto" }}

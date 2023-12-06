@@ -91,14 +91,14 @@ const Signup = ({ valueFromSignup }) => {
                 },
               ]}
             >
-              <Input />
+              <Input placeholder="type email" />
             </Form.Item>
           </Col>
         </Row>
         <Row className="mt-minus-1">
           <Col offset={4} span={20} style={{ margin: "auto" }}>
             <Form.Item
-              label="SchoolName"
+              label="School name"
               name="schoolName"
               rules={[
                 {
@@ -128,7 +128,7 @@ const Signup = ({ valueFromSignup }) => {
                 },
               ]}
             >
-              <Input.Password />
+              <Input.Password placeholder="type your password"/>
             </Form.Item>
           </Col>
         </Row>
@@ -158,7 +158,7 @@ const Signup = ({ valueFromSignup }) => {
                 }),
               ]}
             >
-              <Input.Password />
+              <Input.Password placeholder="confirm your password"/>
             </Form.Item>
           </Col>
         </Row>
@@ -167,14 +167,12 @@ const Signup = ({ valueFromSignup }) => {
             loading={isLoading}
             type="primary"
             htmlType="submit"
-            style={{ margin: "auto 0 auto 32%" }}
+            style={{ margin: "auto auto 10px auto" }}
           >
             SignUp
-          </Button>
-          <div style={{ width: "50%", margin: "auto" }}>
-            <Link onClick={LoginHandler}>Already have an Account?</Link>
-          </div>
+          </Button>           
         </Row>
+        <Link onClick={LoginHandler}>Already have an Account?</Link>
       </Form>
     </React.Fragment>
   );
