@@ -16,9 +16,7 @@ const Navbar = () => {
   };
   return (
     <Menu id="navmenu" mode="horizontal" style={{ height: "10vh" }}>
-      <Menu.Item key="heading">
         <h2>DigiSchool</h2>
-      </Menu.Item>
       <div id="authdiv"
         style={{ marginTop: "auto", marginBottom: "auto", marginLeft: "auto" }}
       >
@@ -28,9 +26,7 @@ const Navbar = () => {
             onCancel={onCancel}
           />
         ) : null}
-        <Menu.Item key="signup">
-          <Link onClick={signupHandler}>Signup/Login</Link>
-        </Menu.Item>
+          <Link style={{color: "black", paddingRight: "1rem"}} onClick={signupHandler}>Signup/Login</Link>
       </div>
     </Menu>
   );

@@ -31,8 +31,8 @@ const Footer = () => {
       <p>Copyright@{year}</p>
       <p>
         Made with 💖 by DevConquerors (
-        {githubProfiles.map((profile) => (
-          <a style={style} href={profile.link}>
+        {githubProfiles.map((profile, idx) => (
+          <a key={idx} style={style} href={profile.link}>
             {profile.name}
           </a>
         ))}
