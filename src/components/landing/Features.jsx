@@ -46,7 +46,7 @@ const Feature = () => {
         <Col xs={24} sm={12} md={8}>
           <Card className={styles.feature__card} style={{ marginTop: "2rem", height: "35vh" }}>
             <p>
-              <FcSearch size="3rem" marginRight="5px" />
+              <FcSearch size="3rem" />
             </p>
             <div>
               <h5>Get personalized results</h5>
